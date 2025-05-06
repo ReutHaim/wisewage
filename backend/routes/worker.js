@@ -1,5 +1,7 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 const router = express.Router();
+
 
 // CREATE worker
 router.post('/', async (req, res) => {
@@ -45,12 +47,27 @@ router.post('/', async (req, res) => {
 });
 
 // GET one worker by personalId
-router.get('/:personalId', async (req, res) => {
+router.get('/get-user-by-personalId/:personalId', async (req, res) => {
   const db = req.db;
   const { personalId } = req.params;
 
   try {
     const worker = await db.collection('workers').findOne({ personalId });
+    if (!worker) return res.status(404).json({ message: 'Worker not found' });
+
+    res.json(worker);
+  } catch (err) {
+    console.error('Fetch error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  const db = req.db;
+  const { id } = req.params;
+
+  try {
+    const worker = await db.collection('workers').findOne({ _id: new ObjectId(id) });
     if (!worker) return res.status(404).json({ message: 'Worker not found' });
 
     res.json(worker);

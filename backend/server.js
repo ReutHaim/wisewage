@@ -1,13 +1,16 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
+const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const geminiRoutes = require('./routes/gemini.js');
 const contracts = require('./routes/contracts');
+const worker = require('./routes/worker');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
@@ -27,6 +30,7 @@ async function startServer() {
     app.use('/api/auth', authRoutes);
     app.use('/api/gemini', geminiRoutes);
     app.use('/api/contracts', contracts);
+    app.use('/api/workers', worker);
 
     app.listen(3000, () => {
       console.log('Server is running at http://localhost:3000');

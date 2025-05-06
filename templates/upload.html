@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he">
+
 <head>
     <meta charset="UTF-8">
     <title>העלאת חוזה</title>
@@ -100,6 +101,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -121,47 +123,9 @@
         <button class="next-button" id="nextBtn" style="display: none;" onclick="goNext()">המשך</button>
     </div>
 
-    <script>
-        const fileInput = document.getElementById("contractFile");
-        const progressBar = document.getElementById("progressBar");
-        const progressContainer = document.getElementById("progressContainer");
-        const successIcon = document.getElementById("successIcon");
-        const nextMessage = document.getElementById("nextMessage");
-        const nextBtn = document.getElementById("nextBtn");
-
-        fileInput.addEventListener("change", () => {
-            if (fileInput.files.length > 0) {
-                simulateUpload();
-            }
-        });
-
-        function simulateUpload() {
-            progressContainer.style.display = "block";
-            progressBar.style.width = "0%";
-            successIcon.style.display = "none";
-            nextMessage.style.display = "none";
-            nextBtn.style.display = "none";
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + "%";
-
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        successIcon.style.display = "block";
-                        nextMessage.style.display = "block";
-                        nextBtn.style.display = "inline-block";
-                    }, 300);
-                }
-            }, 150);
-        }
-
-        function goNext() {
-            window.location.href = "review.html";
-        }
-    </script>
+    <!-- Link to external JavaScript -->
+    <script src="upload.js"></script>
 
 </body>
+
 </html>
