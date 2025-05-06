@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he">
+
 <head>
     <meta charset="UTF-8">
     <title>הפקת תלושים</title>
@@ -11,6 +12,7 @@
             padding: 30px;
             min-height: 100vh;
         }
+
         .top-bar {
             width: 100%;
             display: flex;
@@ -19,6 +21,7 @@
             margin-bottom: 20px;
             padding: 0 10px;
         }
+
         .top-bar button {
             font-size: 16px;
             cursor: pointer;
@@ -27,31 +30,37 @@
             padding: 8px 16px;
             border-radius: 8px;
         }
+
         .logout-button {
             background: #d32f2f;
             color: white;
         }
+
         .home-button {
             background: #eeeeee;
             color: #333;
         }
+
         .container {
             display: flex;
             background: white;
             padding: 40px;
             border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
         }
+
         .employee-list {
             width: 30%;
             padding-right: 20px;
             border-right: 2px solid #ccc;
         }
+
         .employee-list h4 {
             margin-bottom: 10px;
             color: #444;
         }
+
         .employee-item {
             padding: 10px;
             background: #fff;
@@ -61,25 +70,31 @@
             transition: 0.3s;
             margin-bottom: 8px;
         }
+
         .employee-item:hover {
             background-color: #e3f2fd;
         }
+
         .payroll-form {
             width: 70%;
             padding-left: 20px;
         }
+
         .payroll-form h3 {
             color: #1976d2;
             margin-bottom: 20px;
         }
+
         .payroll-form .field {
             margin-bottom: 16px;
         }
+
         .payroll-form label {
             display: block;
             margin-bottom: 5px;
             color: #333;
         }
+
         .payroll-form input,
         .payroll-form textarea {
             width: 100%;
@@ -87,12 +102,14 @@
             border-radius: 8px;
             border: 1px solid #ccc;
         }
+
         .action-buttons {
             margin-top: 20px;
             display: flex;
             gap: 15px;
             align-items: center;
         }
+
         .generate-slip-button {
             background-color: #2e7d32;
             color: white;
@@ -102,77 +119,206 @@
             font-size: 14px;
             cursor: pointer;
         }
+
+        .payslip-display {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+        }
+
+        .payslip-display h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="top-bar">
-    <button class="logout-button" onclick="window.location.href='login.html'">התנתקות</button>
-    <button class="home-button" onclick="window.location.href='home.html'">← חזרה למסך הבית</button>
-</div>
-
-<div class="container">
-    <!-- רשימת העובדים -->
-    <div class="employee-list">
-        <h4>רשימת עובדים</h4>
-        <div class="employee-item" onclick="selectEmployee('יוסי כהן')">יוסי כהן</div>
-        <div class="employee-item" onclick="selectEmployee('דנה ישראלי')">דנה ישראלי</div>
-        <div class="employee-item" onclick="selectEmployee('שרה לוי')">שרה לוי</div>
+    <div class="top-bar">
+        <button class="logout-button" onclick="window.location.href='login.html'">התנתקות</button>
+        <button class="home-button" onclick="window.location.href='home.html'">← חזרה למסך הבית</button>
     </div>
 
-    <!-- טופס הזנת נתונים -->
-    <div class="payroll-form" id="payrollForm" style="display: none;">
-        <h3>הזנת נתוני שכר</h3>
-        <div class="field">
-            <label>שעות עבודה בחודש: - *בעתיד יתקבל באופן אוטומטי על ידי ממשק עם מערכת דיווח נוכחות*</label>
-            <input type="number" id="workHours" placeholder="הזן שעות עבודה בחודש" step="1">
+    <div class="container">
+        <!-- רשימת העובדים -->
+        <div class="employee-list">
+            <h4>רשימת עובדים</h4>
+            <div id="employeeListContainer"></div>
         </div>
-        <div class="field">
-            <label>ימי חופש: - *בעתיד יתקבל באופן אוטומטי על ידי ממשק עם מערכת דיווח נוכחות*</label>
-            <input type="number" id="vacationDays" placeholder="הזן ימי חופש" step="1">
-        </div>
-        <div class="field">
-            <label>ימי מחלה: - *בעתיד יתקבל באופו אוטומטי על ידי ממשק עם מערכת דיווח נוכחות*</label>
-            <input type="number" id="sickDays" placeholder="הזן ימי מחלה" step="1">
-        </div>
-        <div class="field">
-            <label>בונוס חודשי: - *בעתיד יתקבל באופן אוטומטי על ידי ממשק למערכת ביצועי עובדים*</label>
-            <input type="number" id="monthlyBonus" placeholder="הזן בונוס חודשי" step="0.01">
-        </div>
-        
-        <div class="action-buttons">
-            <button class="generate-slip-button" onclick="generatePayslip()">הפקת תלוש</button>
+
+        <!-- טופס הזנת נתונים -->
+        <div class="payroll-form" id="payrollForm" style="display: none;">
+            <h3>הזנת נתוני שכר</h3>
+            <div class="field">
+                <label>שעות עבודה בחודש:</label>
+                <input type="number" id="workHours" placeholder="הזן שעות עבודה בחודש" step="1">
+            </div>
+            <div class="field">
+                <label>ימי חופש:</label>
+                <input type="number" id="vacationDays" placeholder="הזן ימי חופש" step="1">
+            </div>
+            <div class="field">
+                <label>ימי מחלה:</label>
+                <input type="number" id="sickDays" placeholder="הזן ימי מחלה" step="1">
+            </div>
+            <div class="field">
+                <label>בונוס חודשי:</label>
+                <input type="number" id="monthlyBonus" placeholder="הזן בונוס חודשי" step="0.01">
+            </div>
+
+            <div class="action-buttons">
+                <button class="generate-slip-button" onclick="generatePayslip()">הפקת תלוש</button>
+            </div>
+
+            <div id="payslipContainer"></div>
         </div>
     </div>
-</div>
 
-<script>
-    let selectedEmployee = '';
+    <script>
+        let selectedEmployee = '';
 
-    // פונקציה לבחירת עובד והצגת טופס להזנת נתונים
-    function selectEmployee(name) {
-        selectedEmployee = name;
-        document.querySelector('.payroll-form').style.display = 'block';
-        document.querySelector('.payroll-form h3').innerText = `הזנת נתוני שכר עבור ${name}`;
-    }
+        async function fetchAndDisplayEmployees() {
+            try {
+                const response = await fetch('http://localhost:3000/api/workers');
+                const workers = await response.json();
+                const container = document.getElementById('employeeListContainer');
+                container.innerHTML = '';
 
-    // פונקציה להפקת תלוש
-    function generatePayslip() {
-        const salary = document.getElementById("salary").value;
-        const workHours = document.getElementById("workHours").value;
-        const vacationDays = document.getElementById("vacationDays").value;
-        const sickDays = document.getElementById("sickDays").value;
-        const monthlyBonus = document.getElementById("monthlyBonus").value;
-
-        if (salary && workHours && vacationDays && sickDays && monthlyBonus) {
-            alert(`✅ תלוש שכר עבור ${selectedEmployee} הופק בהצלחה!`);
-            // כאן נוכל לשלב את האלגוריתם של ה-AI להפקת התלוש
-            // לדוגמה: שליחת הנתונים למערכת או יצירת תלוש עם החישובים
-        } else {
-            alert('יש למלא את כל השדות');
+                workers.forEach(worker => {
+                    const fullName = `${worker.firstName} ${worker.lastName}`;
+                    const div = document.createElement('div');
+                    div.className = 'employee-item';
+                    div.textContent = fullName;
+                    div.onclick = () => selectEmployee(fullName);
+                    container.appendChild(div);
+                });
+            } catch (err) {
+                console.error('Error fetching employees:', err);
+            }
         }
-    }
-</script>
+
+        function selectEmployee(name) {
+            selectedEmployee = name;
+            document.querySelector('.payroll-form').style.display = 'block';
+            document.querySelector('.payroll-form h3').innerText = `הזנת נתוני שכר עבור ${name}`;
+            document.getElementById('payslipContainer').innerHTML = ''; // Clear previous payslip
+        }
+
+        async function generatePayslip() {
+            const workHours = document.getElementById("workHours").value;
+            const vacationDays = document.getElementById("vacationDays").value;
+            const sickDays = document.getElementById("sickDays").value;
+            const monthlyBonus = document.getElementById("monthlyBonus").value;
+
+            if (workHours && vacationDays && sickDays && monthlyBonus) {
+                try {
+                    const response = await fetch('http://localhost:3000/api/payslips', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            employeeName: selectedEmployee,
+                            workHours,
+                            vacationDays,
+                            sickDays,
+                            monthlyBonus
+                        })
+                    });
+
+                    if (response.ok) {
+                        const payslipData = await response.json();
+                        alert(`✅ תלוש שכר עבור ${selectedEmployee} הופק בהצלחה!`);
+                        displayPayslip(payslipData);
+                    } else {
+                        const err = await response.text();
+                        alert('❌ שגיאה בהפקת תלוש: ' + err);
+                    }
+                } catch (err) {
+                    alert('❌ שגיאת רשת: ' + err.message);
+                }
+            } else {
+                alert('יש למלא את כל השדות');
+            }
+        }
+
+        function displayPayslip(payslip) {
+            const container = document.getElementById('payslipContainer');
+            container.className = 'payslip-display';
+
+            // Prepare default breakdown items with Hebrew labels only
+            let breakdownHTML = `
+        <p><strong>שכר בסיס:</strong> ₪${payslip.baseSalary}</p>
+        <p><strong>בונוס:</strong> ₪${payslip.bonus}</p>
+        <p><strong>ניכוי ימי חופשה:</strong> ₪${payslip.vacationDeduction}</p>
+        <p><strong>ניכוי ימי מחלה:</strong> ₪${payslip.sickDaysDeduction}</p>
+    `;
+
+            // If salaryBreakdown exists and is an object, loop through it
+            if (payslip.salaryBreakdown) {
+                // Only include the Hebrew components
+                const hebrewLabels = {
+                    baseSalary: "שכר בסיס",
+                    travelAllowance: "נסיעות",
+                    bonus: "בונוס",
+                    deductions: {
+                        vacationDeduction: "ניכוי ימי חופשה",
+                        sickDaysDeduction: "ניכוי ימי מחלה"
+                    }
+                };
+
+                // Loop through the salaryBreakdown object and add its Hebrew properties
+                Object.keys(payslip.salaryBreakdown).forEach(key => {
+                    if (hebrewLabels[key]) {
+                        const value = payslip.salaryBreakdown[key];
+                        if (typeof value === 'object') {
+                            // Loop through sub-properties (e.g., deductions)
+                            Object.keys(value).forEach(subKey => {
+                                if (hebrewLabels.deductions[subKey]) {
+                                    breakdownHTML += `<p><strong>${hebrewLabels.deductions[subKey]}:</strong> ₪${value[subKey]}</p>`;
+                                }
+                            });
+                        } else {
+                            breakdownHTML += `<p><strong>${hebrewLabels[key]}:</strong> ₪${value}</p>`;
+                        }
+                    }
+                });
+            }
+
+            // Final salary
+            breakdownHTML += `
+        <hr>
+        <p><strong>שכר סופי לתשלום:</strong> ₪${payslip.finalSalary}</p>
+        <hr>
+    `;
+
+            // Check if details is a string before splitting
+            let salaryBreakdownHTML = '';
+            if (typeof payslip.details === 'string') {
+                salaryBreakdownHTML = payslip.details.split("\n").map(line => {
+                    return `<p>${line}</p>`;
+                }).join(""); // Join the array of paragraphs
+            } else {
+                // If details is not a string, display it as is or handle it differently
+                salaryBreakdownHTML = `<p>${JSON.stringify(payslip.details)}</p>`;
+            }
+
+            // Update the container with all the information
+            container.innerHTML = `
+        <h4>תלוש שכר עבור ${payslip.employee}</h4>
+        <p><strong>חודש:</strong> ${payslip.month}</p>
+        ${breakdownHTML}
+        <div style="white-space: pre-wrap; direction: rtl; background: #eef; padding: 10px; border-radius: 8px;">
+            ${salaryBreakdownHTML}
+        </div>
+    `;
+        }
+
+
+        window.onload = fetchAndDisplayEmployees;
+    </script>
 
 </body>
+
 </html>
