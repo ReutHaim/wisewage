@@ -35,14 +35,14 @@ async function parseWorkerFromPDF(filePath) {
     const structuredJson = cleanGeminiOutput(await callGemini(prompt));
 
     try {
-      const parsed = JSON.parse(structuredJson);
-      console.log(parsed);
-      return parsed;
+        const parsed = JSON.parse(structuredJson);
+        console.log(parsed);
+        return parsed;
     } catch (err) {
-      console.error("Gemini JSON parsing error:", err);
-      console.error("Original response:", structuredJson);
-      throw new Error("Failed to parse Gemini output as JSON");
-    }    
+        console.error("Gemini JSON parsing error:", err);
+        console.error("Original response:", structuredJson);
+        throw new Error("Failed to parse Gemini output as JSON");
+    }
 }
 
 module.exports = { parseWorkerFromPDF };
