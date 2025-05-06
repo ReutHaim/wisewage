@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>ניהול עובדים</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            direction: rtl;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .sidebar {
+            width: 30%;
+        }
+        .search {
+            margin-bottom: 20px;
+        }
+        .search input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        .department {
+            margin-bottom: 20px;
+        }
+        .department h4 {
+            margin-bottom: 10px;
+            color: #1976d2;
+        }
+        .employee-item {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .employee-item:hover {
+            background: #e3f2fd;
+        }
+        .employee-card {
+            width: 70%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #ccc;
+        }
+        .employee-card input, .employee-card textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f7f7f7;
+        }
+        .employee-card input:disabled, .employee-card textarea:disabled {
+            background: #e9ecef;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .edit-button, .save-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .edit-button {
+            background-color: #ffa000;
+            color: white;
+        }
+        .save-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        .folders {
+            margin-top: 30px;
+        }
+        .folders button {
+            margin-left: 15px;
+            padding: 10px 20px;
+            background: #90caf9;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <div class="search">
+            <input type="text" placeholder="חיפוש לפי שם או ת.ז" />
+        </div>
+        <div class="department">
+            <h4>הנדסה</h4>
+            <div class="employee-item" onclick="showEmployee('יוסי כהן')">יוסי כהן</div>
+        </div>
+        <div class="department">
+            <h4>רכש</h4>
+            <div class="employee-item" onclick="showEmployee('שרה לוי')">שרה לוי</div>
+        </div>
+    </div>
+
+    <div class="employee-card" id="employeeCard" style="display: none;">
+        <h2 id="employeeHeader">כרטיס עובד</h2>
+        <label>שם פרטי</label>
+        <input type="text" id="firstName" disabled>
+        <label>שם משפחה</label>
+        <input type="text" id="lastName" disabled>
+        <label>תפקיד</label>
+        <input type="text" id="position" disabled>
+        <label>תאריך התחלה</label>
+        <input type="date" id="startDate" disabled>
+        <label>דוא"ל</label>
+        <input type="email" id="email" disabled>
+        <label>טלפון</label>
+        <input type="tel" id="phone" disabled>
+        <label>תנאי שכר</label>
+        <textarea id="salaryTerms" rows="6" disabled></textarea>
+
+        <div class="action-buttons">
+            <button class="edit-button" onclick="enableEdit()">✏️ עדכון</button>
+            <button class="save-button" onclick="confirmSave()">💾 שמירת שינויים</button>
+        </div>
+
+        <div class="folders">
+            <button>📁 חוזי עבודה קודמים</button>
+            <button>📁 תלושי שכר קודמים</button>
+            <button>📄 לצפייה בחוזה הנוכחי</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showEmployee(name) {
+        document.getElementById('employeeCard').style.display = 'block';
+
+        if (name === 'יוסי כהן') {
+            document.getElementById('firstName').value = 'יוסי';
+            document.getElementById('lastName').value = 'כהן';
+            document.getElementById('position').value = 'מפתח תוכנה';
+            document.getElementById('startDate').value = '2023-06-01';
+            document.getElementById('email').value = 'yossi@example.com';
+            document.getElementById('phone').value = '0501234567';
+            document.getElementById('salaryTerms').value = '- שכר בסיס: 20,000 ש"ח\n- בונוס שנתי: עד 10%\n- קרן השתלמות';
+        } else if (name === 'שרה לוי') {
+            document.getElementById('firstName').value = 'שרה';
+            document.getElementById('lastName').value = 'לוי';
+            document.getElementById('position').value = 'רכש טכנולוגי';
+            document.getElementById('startDate').value = '2024-01-15';
+            document.getElementById('email').value = 'sara@example.com';
+            document.getElementById('phone').value = '0507654321';
+            document.getElementById('salaryTerms').value = '- שכר בסיס: 18,000 ש"ח\n- החזר הוצאות\n- ימי חופשה מוגדלים';
+        }
+
+        document.getElementById('employeeHeader').innerText = name;
+        disableFields();
+    }
+
+    function enableEdit() {
+        document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = false);
+    }
+
+    function disableFields() {
+        document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = true);
+    }
+
+    function confirmSave() {
+        Swal.fire({
+            title: 'האם לשמור את השינויים?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'כן, שמור',
+            cancelButtonText: 'ביטול'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                disableFields();
+                Swal.fire({
+                    title: 'השינויים נשמרו בהצלחה!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

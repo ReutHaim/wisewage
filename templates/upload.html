@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>העלאת חוזה</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #ffffff);
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #1976d2;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1976d2;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #115293;
+        }
+
+        #progressContainer {
+            width: 100%;
+            background-color: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.4s ease;
+        }
+
+        .success {
+            color: green;
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .next-button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .next-button:hover {
+            background-color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>העלאת חוזה העסקה</h2>
+
+        <label class="file-label" for="contractFile">בחר קובץ</label>
+        <input type="file" id="contractFile" accept=".pdf,.doc,.docx">
+
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+
+        <div class="success" id="successIcon">✔️ הקובץ נקלט בהצלחה!</div>
+
+        <div class="message" id="nextMessage" style="display: none;">
+            לעיבוד החוזה לחץ על המשך
+        </div>
+
+        <button class="next-button" id="nextBtn" style="display: none;" onclick="goNext()">המשך</button>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById("contractFile");
+        const progressBar = document.getElementById("progressBar");
+        const progressContainer = document.getElementById("progressContainer");
+        const successIcon = document.getElementById("successIcon");
+        const nextMessage = document.getElementById("nextMessage");
+        const nextBtn = document.getElementById("nextBtn");
+
+        fileInput.addEventListener("change", () => {
+            if (fileInput.files.length > 0) {
+                simulateUpload();
+            }
+        });
+
+        function simulateUpload() {
+            progressContainer.style.display = "block";
+            progressBar.style.width = "0%";
+            successIcon.style.display = "none";
+            nextMessage.style.display = "none";
+            nextBtn.style.display = "none";
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        successIcon.style.display = "block";
+                        nextMessage.style.display = "block";
+                        nextBtn.style.display = "inline-block";
+                    }, 300);
+                }
+            }, 150);
+        }
+
+        function goNext() {
+            window.location.href = "review.html";
+        }
+    </script>
+
+</body>
+</html>

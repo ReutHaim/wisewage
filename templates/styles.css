@@ -1,0 +1,82 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f4f8;
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  h1 {
+    color: #2b4a66;
+    text-align: center;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu li {
+    margin: 1rem 0;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    background-color: #3e8ed0;
+    color: white;
+    padding: 1rem;
+    display: block;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+  
+  .menu a:hover {
+    background-color: #1e6fab;
+  }
+  
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 0.75rem 1.5rem;
+    background-color: #3e8ed0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #1e6fab;
+  }
+  
+  .upload-box {
+    border: 2px dashed #ccc;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: #fafafa;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  

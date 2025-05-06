@@ -1,0 +1,172 @@
+<!-- review.html -->
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>אימות נתוני חוזה</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            direction: rtl;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+        h2 {
+            color: #1976d2;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .submit-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+        }
+        .success-message h2 {
+            color: green;
+        }
+        .home-btn {
+            margin-top: 20px;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="formContainer">
+    <h2>אימות נתוני חוזה</h2>
+    <form id="contractForm">
+        <div class="form-group">
+            <label>שם מלא</label>
+            <input type="text" name="full_name" id="full_name">
+        </div>
+        <div class="form-group">
+            <label>תפקיד</label>
+            <input type="text" name="position" id="position">
+        </div>
+        <div class="form-group">
+            <label>תאריך תחילת עבודה</label>
+            <input type="date" name="start_date" id="start_date">
+        </div>
+        <div class="form-group">
+            <label>דוא״ל</label>
+            <input type="email" name="email" id="email">
+        </div>
+        <div class="form-group">
+            <label>טלפון</label>
+            <input type="text" name="phone" id="phone">
+        </div>
+        <div class="form-group">
+            <label>תעודת זהות</label>
+            <input type="text" name="id_number" id="id_number">
+        </div>
+        <div class="form-group">
+            <label>מצב משפחתי</label>
+            <input type="text" name="marital_status" id="marital_status">
+        </div>
+        <div class="form-group">
+            <label>תנאי שכר (מופק על ידי AI)</label>
+            <textarea name="salary_conditions" id="salary_conditions" readonly></textarea>
+        </div>
+        <button class="submit-btn" type="submit">אישור הנתונים ושמירת העובד</button>
+    </form>
+</div>
+
+<div class="container success-message" id="successMessage">
+    <h2 id="successText"></h2>
+    <button class="home-btn" onclick="goHome()">חזרה לדף הבית</button>
+</div>
+
+<script>
+    // קבלת הנתונים מהשרת
+    const data = JSON.parse(localStorage.getItem("contractData"));
+    if (data) {
+        document.getElementById("full_name").value = data.full_name || "";
+        document.getElementById("position").value = data.position || "";
+        document.getElementById("start_date").value = data.start_date || "";
+        document.getElementById("email").value = data.email || "";
+        document.getElementById("phone").value = data.phone || "";
+        document.getElementById("id_number").value = data.id_number || "";
+        document.getElementById("marital_status").value = data.marital_status || "";
+        document.getElementById("salary_conditions").value = data.salary_conditions || "";
+    }
+
+    document.getElementById("contractForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const fullName = document.querySelector('input[name="full_name"]').value;
+        Swal.fire({
+            title: 'אישור נתונים',
+            text: 'האם אתה בטוח שברצונך לאשר ולשמור את העובד?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'אישור',
+            cancelButtonText: 'ביטול',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("formContainer").style.display = "none";
+                document.getElementById("successText").textContent = `העובד ${fullName} נקלט בהצלחה במערכת!`;
+                document.getElementById("successMessage").style.display = "block";
+                // פה אפשר גם לשלוח לשרת ולשמור בפועל
+            }
+        });
+    });
+
+    function goHome() {
+        window.location.href = "home.html";
+    }
+</script>
+
+</body>
+</html>
