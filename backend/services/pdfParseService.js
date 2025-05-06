@@ -46,5 +46,3 @@ async function parseWorkerFromPDF(filePath) {
 }
 
 module.exports = { parseWorkerFromPDF };
-
-parseWorkerFromPDF(path.join(__dirname, "../test.pdf"));
