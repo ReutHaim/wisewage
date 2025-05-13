@@ -38,6 +38,24 @@
             margin-bottom: 20px;
         }
 
+        .salary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .salary-section h3 {
+            color: #2196f3;
+            margin-bottom: 20px;
+        }
+
+        .salary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
         label {
             display: block;
             margin-bottom: 6px;
@@ -53,6 +71,11 @@
             border: 1px solid #ccc;
             font-size: 16px;
             box-sizing: border-box;
+        }
+
+        .readonly-input {
+            background-color: #f5f5f5;
+            color: #666;
         }
 
         textarea {
@@ -93,6 +116,24 @@
             cursor: pointer;
             font-size: 16px;
         }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .salary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .no-data-message {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -129,10 +170,90 @@
                 <label>מצב משפחתי</label>
                 <input type="text" name="marital_status" id="marital_status">
             </div>
-            <div class="form-group">
-                <label>תנאי שכר (מופק על ידי AI)</label>
-                <textarea name="salary_conditions" id="salary_conditions" readonly></textarea>
+
+            <div class="salary-section">
+                <h3>פרטי שכר והטבות</h3>
+                <div id="noSalaryData" class="no-data-message hidden">
+                    לא נמצאו נתוני שכר
+                </div>
+                <div class="salary-grid" id="salaryGrid">
+                    <div class="form-group salary-item" id="baseSalaryGroup">
+                        <label>שכר בסיס</label>
+                        <input type="number" name="base_salary" id="base_salary" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="travelAllowanceGroup">
+                        <label>דמי נסיעות</label>
+                        <input type="number" name="travel_allowance" id="travel_allowance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="mealAllowanceGroup">
+                        <label>דמי אוכל</label>
+                        <input type="number" name="meal_allowance" id="meal_allowance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="phoneAllowanceGroup">
+                        <label>דמי טלפון</label>
+                        <input type="number" name="phone_allowance" id="phone_allowance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="carAllowanceGroup">
+                        <label>אחזקת רכב</label>
+                        <input type="number" name="car_allowance" id="car_allowance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="extraHoursBonusGroup">
+                        <label>שעות נוספות</label>
+                        <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="nonCompetitionBonusGroup">
+                        <label>תמורת אי תחרות</label>
+                        <input type="number" name="non_competition_bonus" id="non_competition_bonus" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="otherAllowancesGroup">
+                        <label>הטבות נוספות</label>
+                        <input type="number" name="other_allowances" id="other_allowances" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employeeSeveranceGroup">
+                        <label>הפרשות עובד לפיצויים (%)</label>
+                        <input type="number" name="employee_severance" id="employee_severance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employerSeveranceGroup">
+                        <label>הפרשות מעסיק לפיצויים (%)</label>
+                        <input type="number" name="employer_severance" id="employer_severance" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employeePensionGroup">
+                        <label>הפרשות עובד לתגמולים/פנסיה (%)</label>
+                        <input type="number" name="employee_pension" id="employee_pension" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employerPensionGroup">
+                        <label>הפרשות מעסיק לתגמולים/פנסיה (%)</label>
+                        <input type="number" name="employer_pension" id="employer_pension" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employeeEducationFundGroup">
+                        <label>הפרשות עובד לקרן השתלמות (%)</label>
+                        <input type="number" name="employee_education_fund" id="employee_education_fund" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="employerEducationFundGroup">
+                        <label>הפרשות מעסיק לקרן השתלמות (%)</label>
+                        <input type="number" name="employer_education_fund" id="employer_education_fund" class="readonly-input" readonly>
+                    </div>
+                </div>
             </div>
+
+            <div class="salary-section">
+                <h3>ימי זכאות שנתיים</h3>
+                <div class="salary-grid">
+                    <div class="form-group salary-item" id="maxAnnualVectionDaysGroup">
+                        <label>ימי חופשה שנתיים</label>
+                        <input type="number" name="max_annual_vection_days" id="max_annual_vection_days" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="maxAnnualSickDaysGroup">
+                        <label>ימי מחלה שנתיים</label>
+                        <input type="number" name="max_annual_sick_days" id="max_annual_sick_days" class="readonly-input" readonly>
+                    </div>
+                    <div class="form-group salary-item" id="maxAnnualConvalescenceDaysGroup">
+                        <label>ימי הבראה שנתיים</label>
+                        <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days" class="readonly-input" readonly>
+                    </div>
+                </div>
+            </div>
+
             <button class="submit-btn" type="submit">אישור הנתונים ושמירת העובד</button>
         </form>
     </div>
@@ -153,7 +274,23 @@
             document.getElementById("phone").value = data.phone || "";
             document.getElementById("id_number").value = data.id_number || "";
             document.getElementById("marital_status").value = data.marital_status || "";
-            document.getElementById("salary_conditions").value = data.salary_conditions || "";
+            document.getElementById("base_salary").value = data.base_salary || "";
+            document.getElementById("travel_allowance").value = data.travel_allowance || "";
+            document.getElementById("meal_allowance").value = data.meal_allowance || "";
+            document.getElementById("phone_allowance").value = data.phone_allowance || "";
+            document.getElementById("car_allowance").value = data.car_allowance || "";
+            document.getElementById("extra_hours_bonus").value = data.extra_hours_bonus || "";
+            document.getElementById("non_competition_bonus").value = data.non_competition_bonus || "";
+            document.getElementById("other_allowances").value = data.other_allowances || "";
+            document.getElementById("employee_severance").value = data.employee_severance || "";
+            document.getElementById("employer_severance").value = data.employer_severance || "";
+            document.getElementById("employee_pension").value = data.employee_pension || "";
+            document.getElementById("employer_pension").value = data.employer_pension || "";
+            document.getElementById("employee_education_fund").value = data.employee_education_fund || "";
+            document.getElementById("employer_education_fund").value = data.employer_education_fund || "";
+            document.getElementById("max_annual_vection_days").value = data.max_annual_vection_days || "";
+            document.getElementById("max_annual_sick_days").value = data.max_annual_sick_days || "";
+            document.getElementById("max_annual_convalescence_days").value = data.max_annual_convalescence_days || "";
         }
 
         document.getElementById("contractForm").addEventListener("submit", function (event) {
@@ -177,7 +314,23 @@
                         email: document.getElementById("email").value,
                         phone: document.getElementById("phone").value,
                         personalId: document.getElementById("id_number").value,
-                        salaryDetails: document.getElementById("salary_conditions").value,
+                        baseSalary: document.getElementById("base_salary").value,
+                        travelAllowance: document.getElementById("travel_allowance").value,
+                        mealAllowance: document.getElementById("meal_allowance").value,
+                        phoneAllowance: document.getElementById("phone_allowance").value,
+                        carAllowance: document.getElementById("car_allowance").value,
+                        extraHoursBonus: document.getElementById("extra_hours_bonus").value,
+                        nonCompetitionBonus: document.getElementById("non_competition_bonus").value,
+                        otherAllowances: document.getElementById("other_allowances").value,
+                        employeeSeverance: document.getElementById("employee_severance").value,
+                        employerSeverance: document.getElementById("employer_severance").value,
+                        employeePension: document.getElementById("employee_pension").value,
+                        employerPension: document.getElementById("employer_pension").value,
+                        employeeEducationFund: document.getElementById("employee_education_fund").value,
+                        employerEducationFund: document.getElementById("employer_education_fund").value,
+                        maxAnnualVectionDays: document.getElementById("max_annual_vection_days").value,
+                        maxAnnualSickDays: document.getElementById("max_annual_sick_days").value,
+                        maxAnnualConvalescenceDays: document.getElementById("max_annual_convalescence_days").value,
                     };
 
                     fetch(`http://localhost:3000/api/workers/${updatedData.personalId}`, {

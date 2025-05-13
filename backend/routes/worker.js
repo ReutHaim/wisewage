@@ -9,16 +9,28 @@ router.post('/', async (req, res) => {
   const {
     firstName,
     lastName,
+    address,
     role,
+    department,
     startDate,
     email,
     phone,
     personalId,
-    salaryDetails
+    baseSalary,
+    travelAllowance,
+    mealAllowance,
+    phoneAllowance,
+    carAllowance,
+    maxAnnualVectionDays,
+    maxAnnualSickDays,
+    maxAnnualConvalescenceDays,
+    contributionRates,
+    otherAllowances,
+    otherDetails
   } = req.body;
 
-  if (!firstName || !lastName || !role || !startDate || !email || !phone || !personalId || !salaryDetails) {
-    return res.status(400).json({ message: 'All fields are required.' });
+  if (!firstName || !lastName || !role || !startDate || !personalId) {
+    return res.status(400).json({ message: 'Required fields are missing.' });
   }
 
   try {
@@ -30,12 +42,31 @@ router.post('/', async (req, res) => {
     const result = await db.collection('workers').insertOne({
       firstName,
       lastName,
+      address,
       role,
+      department,
       startDate,
       email,
       phone,
       personalId,
-      salaryDetails,
+      baseSalary,
+      travelAllowance,
+      mealAllowance,
+      phoneAllowance,
+      carAllowance,
+      maxAnnualVectionDays,
+      maxAnnualSickDays,
+      maxAnnualConvalescenceDays,
+      contributionRates: contributionRates || {
+        employeeSeverance: 6.0,
+        employerSeverance: 8.33,
+        employeePension: 6.0,
+        employerPension: 6.5,
+        employeeEducationFund: 2.5,
+        employerEducationFund: 7.5
+      },
+      otherAllowances,
+      otherDetails,
       createdAt: new Date()
     });
 
@@ -95,6 +126,11 @@ router.put('/:personalId', async (req, res) => {
   const db = req.db;
   const { personalId } = req.params;
   const updateData = req.body;
+
+  // Remove fields that shouldn't be updated directly
+  delete updateData._id;
+  delete updateData.createdAt;
+  delete updateData.contractPath;
 
   try {
     const result = await db.collection('workers').updateOne(
