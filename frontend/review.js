@@ -5,7 +5,7 @@ function getQueryParam(param) {
 
 async function fetchWorkerData(id) {
     try {
-        const response = await fetch(`http://localhost:3000/api/workers/${id}`);
+        const response = await fetch(`http://${window.location.hostname}:3000/api/workers/${id}`);
         if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();

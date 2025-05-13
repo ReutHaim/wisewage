@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
-const geminiRoutes = require('./routes/gemini.js');
+const geminiRoutes = require('./routes/gemini');
 const contracts = require('./routes/contracts');
 const worker = require('./routes/worker');
 const payslip = require('./routes/payslip');
@@ -12,6 +12,8 @@ const payslip = require('./routes/payslip');
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
@@ -32,10 +34,14 @@ async function startServer() {
     app.use('/api/gemini', geminiRoutes);
     app.use('/api/contracts', contracts);
     app.use('/api/workers', worker);
-    app.use("/api/payslips", payslip);
+    app.use('/api/payslips', payslip);
 
-    app.listen(3000, () => {
-      console.log('Server is running at http://localhost:3000');
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, '../frontend/login.html'));
+    });
+
+    app.listen(3000, '0.0.0.0', () => {
+      console.log('Server running at http://0.0.0.0:3000');
     });
   } catch (err) {
     console.error('Failed to connect to MongoDB', err);

@@ -91,22 +91,6 @@
         <p>לכל שאלה או פנייה: <a href="mailto:support@company.com">support@company.com</a></p>
     </div>
 
-    <script>
-        function login() {
-            // קבלת שם המשתמש, הסיסמה וקוד הארגון מהטופס
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const orgcode = document.getElementById('orgcode').value;
-
-            // לבדוק אם שם המשתמש, הסיסמה וקוד הארגון תקינים
-            if (username === '123' && password === '123' && orgcode === '123') {
-                // אם נכנסו פרטים נכונים, לעבור לדף הבית
-                window.location.href = 'home.html';
-            } else {
-                // אם לא נכנסו פרטים נכונים, להציג הודעה
-                alert('שם משתמש, סיסמה או קוד ארגון לא נכונים');
-            }
-        }
-    </script>
+    <script src="login.js"></script>
 </body>
 </html>
