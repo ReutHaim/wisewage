@@ -3,6 +3,9 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 const cors = require('cors');
 
+const logger = require('./middleware/logger');
+const errorHandler = require('./middleware/errorHandler');
+
 const authRoutes = require('./routes/auth');
 const geminiRoutes = require('./routes/gemini');
 const contracts = require('./routes/contracts');
@@ -10,8 +13,11 @@ const worker = require('./routes/worker');
 const payslip = require('./routes/payslip');
 
 const app = express();
+
+
 app.use(express.json());
 app.use(cors());
+app.use(logger);
 
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -39,6 +45,8 @@ async function startServer() {
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, '../frontend/login.html'));
     });
+
+    app.use(errorHandler);
 
     app.listen(3000, '0.0.0.0', () => {
       console.log('Server running at http://0.0.0.0:3000');
