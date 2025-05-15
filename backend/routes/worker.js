@@ -125,25 +125,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-// UPDATE worker by personalId
-router.put('/:personalId', async (req, res) => {
+// UPDATE worker by ID
+router.put('/:id', async (req, res) => {
   const db = req.db;
-  const { personalId } = req.params;
+  const { id } = req.params;
   const updateData = { ...req.body };
 
   // Remove fields that shouldn't be updated directly
   delete updateData._id;
   delete updateData.createdAt;
   delete updateData.contractPath;
-  delete updateData.personalId;
-
-  // Remove any top-level contribution rate fields that should only be in contributionRates object
-  delete updateData.employeeSeverance;
-  delete updateData.employerSeverance;
-  delete updateData.employeePension;
-  delete updateData.employerPension;
-  delete updateData.employeeEducationFund;
-  delete updateData.employerEducationFund;
 
   try {
     // Parse numeric values
@@ -174,7 +165,7 @@ router.put('/:personalId', async (req, res) => {
     }
 
     const result = await db.collection('workers').updateOne(
-      { personalId },
+      { _id: new ObjectId(id) },
       { $set: updateData }
     );
 

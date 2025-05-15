@@ -99,7 +99,6 @@ async function handleFormSubmit(event) {
             maxAnnualVectionDays: document.getElementById("max_annual_vection_days").value,
             maxAnnualSickDays: document.getElementById("max_annual_sick_days").value,
             maxAnnualConvalescenceDays: document.getElementById("max_annual_convalescence_days").value,
-            // Only include contribution rates in the nested object
             contributionRates: {
                 employeeSeverance: document.getElementById("employee_severance").value,
                 employerSeverance: document.getElementById("employer_severance").value,
@@ -110,9 +109,10 @@ async function handleFormSubmit(event) {
             }
         };
 
+        const workerId = getQueryParam("id"); // Get the worker's ID from URL
         const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
-            ? `/api/workers/${updatedData.personalId}`  // Use relative path in production
-            : `http://localhost:3000/api/workers/${updatedData.personalId}`;
+            ? `/api/workers/${workerId}`  // Use relative path in production
+            : `http://localhost:3000/api/workers/${workerId}`;
 
         const response = await fetch(apiUrl, {
             method: 'PUT',
