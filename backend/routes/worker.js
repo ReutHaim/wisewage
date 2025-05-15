@@ -21,11 +21,13 @@ router.post('/', async (req, res) => {
     mealAllowance,
     phoneAllowance,
     carAllowance,
+    extraHoursBonus,
+    nonCompetitionBonus,
+    otherAllowances,
     maxAnnualVectionDays,
     maxAnnualSickDays,
     maxAnnualConvalescenceDays,
     contributionRates,
-    otherAllowances,
     otherDetails
   } = req.body;
 
@@ -49,23 +51,25 @@ router.post('/', async (req, res) => {
       email,
       phone,
       personalId,
-      baseSalary,
-      travelAllowance,
-      mealAllowance,
-      phoneAllowance,
-      carAllowance,
-      maxAnnualVectionDays,
-      maxAnnualSickDays,
-      maxAnnualConvalescenceDays,
-      contributionRates: contributionRates || {
-        employeeSeverance: 6.0,
-        employerSeverance: 8.33,
-        employeePension: 6.0,
-        employerPension: 6.5,
-        employeeEducationFund: 2.5,
-        employerEducationFund: 7.5
+      baseSalary: parseFloat(baseSalary) || 0,
+      travelAllowance: parseFloat(travelAllowance) || 0,
+      mealAllowance: parseFloat(mealAllowance) || 0,
+      phoneAllowance: parseFloat(phoneAllowance) || 0,
+      carAllowance: parseFloat(carAllowance) || 0,
+      extraHoursBonus: parseFloat(extraHoursBonus) || 0,
+      nonCompetitionBonus: parseFloat(nonCompetitionBonus) || 0,
+      otherAllowances: parseFloat(otherAllowances) || 0,
+      maxAnnualVectionDays: parseInt(maxAnnualVectionDays) || 0,
+      maxAnnualSickDays: parseInt(maxAnnualSickDays) || 0,
+      maxAnnualConvalescenceDays: parseInt(maxAnnualConvalescenceDays) || 0,
+      contributionRates: {
+        employeeSeverance: parseFloat(contributionRates?.employeeSeverance) || 0,
+        employerSeverance: parseFloat(contributionRates?.employerSeverance) || 0,
+        employeePension: parseFloat(contributionRates?.employeePension) || 0,
+        employerPension: parseFloat(contributionRates?.employerPension) || 0,
+        employeeEducationFund: parseFloat(contributionRates?.employeeEducationFund) || 0,
+        employerEducationFund: parseFloat(contributionRates?.employerEducationFund) || 0
       },
-      otherAllowances,
       otherDetails,
       createdAt: new Date()
     });
@@ -125,14 +129,50 @@ router.get('/', async (req, res) => {
 router.put('/:personalId', async (req, res) => {
   const db = req.db;
   const { personalId } = req.params;
-  const updateData = req.body;
+  const updateData = { ...req.body };
 
   // Remove fields that shouldn't be updated directly
   delete updateData._id;
   delete updateData.createdAt;
   delete updateData.contractPath;
+  delete updateData.personalId;
+
+  // Remove any top-level contribution rate fields that should only be in contributionRates object
+  delete updateData.employeeSeverance;
+  delete updateData.employerSeverance;
+  delete updateData.employeePension;
+  delete updateData.employerPension;
+  delete updateData.employeeEducationFund;
+  delete updateData.employerEducationFund;
 
   try {
+    // Parse numeric values
+    if (updateData.baseSalary) updateData.baseSalary = parseFloat(updateData.baseSalary);
+    if (updateData.travelAllowance) updateData.travelAllowance = parseFloat(updateData.travelAllowance);
+    if (updateData.mealAllowance) updateData.mealAllowance = parseFloat(updateData.mealAllowance);
+    if (updateData.phoneAllowance) updateData.phoneAllowance = parseFloat(updateData.phoneAllowance);
+    if (updateData.carAllowance) updateData.carAllowance = parseFloat(updateData.carAllowance);
+    if (updateData.extraHoursBonus) updateData.extraHoursBonus = parseFloat(updateData.extraHoursBonus);
+    if (updateData.nonCompetitionBonus) updateData.nonCompetitionBonus = parseFloat(updateData.nonCompetitionBonus);
+    if (updateData.otherAllowances) updateData.otherAllowances = parseFloat(updateData.otherAllowances);
+    
+    // Parse integer values for days
+    if (updateData.maxAnnualVectionDays) updateData.maxAnnualVectionDays = parseInt(updateData.maxAnnualVectionDays);
+    if (updateData.maxAnnualSickDays) updateData.maxAnnualSickDays = parseInt(updateData.maxAnnualSickDays);
+    if (updateData.maxAnnualConvalescenceDays) updateData.maxAnnualConvalescenceDays = parseInt(updateData.maxAnnualConvalescenceDays);
+
+    // Handle contribution rates
+    if (updateData.contributionRates) {
+      updateData.contributionRates = {
+        employeeSeverance: parseFloat(updateData.contributionRates.employeeSeverance) || 0,
+        employerSeverance: parseFloat(updateData.contributionRates.employerSeverance) || 0,
+        employeePension: parseFloat(updateData.contributionRates.employeePension) || 0,
+        employerPension: parseFloat(updateData.contributionRates.employerPension) || 0,
+        employeeEducationFund: parseFloat(updateData.contributionRates.employeeEducationFund) || 0,
+        employerEducationFund: parseFloat(updateData.contributionRates.employerEducationFund) || 0
+      };
+    }
+
     const result = await db.collection('workers').updateOne(
       { personalId },
       { $set: updateData }

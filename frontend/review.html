@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>אימות נתוני חוזה</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="review.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -167,8 +166,12 @@
                 <input type="text" name="id_number" id="id_number">
             </div>
             <div class="form-group">
-                <label>מצב משפחתי</label>
-                <input type="text" name="marital_status" id="marital_status">
+                <label>כתובת</label>
+                <input type="text" name="address" id="address">
+            </div>
+            <div class="form-group">
+                <label>מחלקה</label>
+                <input type="text" name="department" id="department">
             </div>
 
             <div class="salary-section">
@@ -179,59 +182,59 @@
                 <div class="salary-grid" id="salaryGrid">
                     <div class="form-group salary-item" id="baseSalaryGroup">
                         <label>שכר בסיס</label>
-                        <input type="number" name="base_salary" id="base_salary" class="readonly-input" readonly>
+                        <input type="number" name="base_salary" id="base_salary" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="travelAllowanceGroup">
                         <label>דמי נסיעות</label>
-                        <input type="number" name="travel_allowance" id="travel_allowance" class="readonly-input" readonly>
+                        <input type="number" name="travel_allowance" id="travel_allowance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="mealAllowanceGroup">
                         <label>דמי אוכל</label>
-                        <input type="number" name="meal_allowance" id="meal_allowance" class="readonly-input" readonly>
+                        <input type="number" name="meal_allowance" id="meal_allowance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="phoneAllowanceGroup">
                         <label>דמי טלפון</label>
-                        <input type="number" name="phone_allowance" id="phone_allowance" class="readonly-input" readonly>
+                        <input type="number" name="phone_allowance" id="phone_allowance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="carAllowanceGroup">
                         <label>אחזקת רכב</label>
-                        <input type="number" name="car_allowance" id="car_allowance" class="readonly-input" readonly>
+                        <input type="number" name="car_allowance" id="car_allowance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="extraHoursBonusGroup">
                         <label>שעות נוספות</label>
-                        <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" class="readonly-input" readonly>
+                        <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="nonCompetitionBonusGroup">
                         <label>תמורת אי תחרות</label>
-                        <input type="number" name="non_competition_bonus" id="non_competition_bonus" class="readonly-input" readonly>
+                        <input type="number" name="non_competition_bonus" id="non_competition_bonus" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="otherAllowancesGroup">
                         <label>הטבות נוספות</label>
-                        <input type="number" name="other_allowances" id="other_allowances" class="readonly-input" readonly>
+                        <input type="number" name="other_allowances" id="other_allowances" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employeeSeveranceGroup">
                         <label>הפרשות עובד לפיצויים (%)</label>
-                        <input type="number" name="employee_severance" id="employee_severance" class="readonly-input" readonly>
+                        <input type="number" name="employee_severance" id="employee_severance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employerSeveranceGroup">
                         <label>הפרשות מעסיק לפיצויים (%)</label>
-                        <input type="number" name="employer_severance" id="employer_severance" class="readonly-input" readonly>
+                        <input type="number" name="employer_severance" id="employer_severance" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employeePensionGroup">
                         <label>הפרשות עובד לתגמולים/פנסיה (%)</label>
-                        <input type="number" name="employee_pension" id="employee_pension" class="readonly-input" readonly>
+                        <input type="number" name="employee_pension" id="employee_pension" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employerPensionGroup">
                         <label>הפרשות מעסיק לתגמולים/פנסיה (%)</label>
-                        <input type="number" name="employer_pension" id="employer_pension" class="readonly-input" readonly>
+                        <input type="number" name="employer_pension" id="employer_pension" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employeeEducationFundGroup">
                         <label>הפרשות עובד לקרן השתלמות (%)</label>
-                        <input type="number" name="employee_education_fund" id="employee_education_fund" class="readonly-input" readonly>
+                        <input type="number" name="employee_education_fund" id="employee_education_fund" step="0.01">
                     </div>
                     <div class="form-group salary-item" id="employerEducationFundGroup">
                         <label>הפרשות מעסיק לקרן השתלמות (%)</label>
-                        <input type="number" name="employer_education_fund" id="employer_education_fund" class="readonly-input" readonly>
+                        <input type="number" name="employer_education_fund" id="employer_education_fund" step="0.01">
                     </div>
                 </div>
             </div>
@@ -241,15 +244,15 @@
                 <div class="salary-grid">
                     <div class="form-group salary-item" id="maxAnnualVectionDaysGroup">
                         <label>ימי חופשה שנתיים</label>
-                        <input type="number" name="max_annual_vection_days" id="max_annual_vection_days" class="readonly-input" readonly>
+                        <input type="number" name="max_annual_vection_days" id="max_annual_vection_days">
                     </div>
                     <div class="form-group salary-item" id="maxAnnualSickDaysGroup">
                         <label>ימי מחלה שנתיים</label>
-                        <input type="number" name="max_annual_sick_days" id="max_annual_sick_days" class="readonly-input" readonly>
+                        <input type="number" name="max_annual_sick_days" id="max_annual_sick_days">
                     </div>
                     <div class="form-group salary-item" id="maxAnnualConvalescenceDaysGroup">
                         <label>ימי הבראה שנתיים</label>
-                        <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days" class="readonly-input" readonly>
+                        <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days">
                     </div>
                 </div>
             </div>
@@ -273,7 +276,8 @@
             document.getElementById("email").value = data.email || "";
             document.getElementById("phone").value = data.phone || "";
             document.getElementById("id_number").value = data.id_number || "";
-            document.getElementById("marital_status").value = data.marital_status || "";
+            document.getElementById("address").value = data.address || "";
+            document.getElementById("department").value = data.department || "";
             document.getElementById("base_salary").value = data.base_salary || "";
             document.getElementById("travel_allowance").value = data.travel_allowance || "";
             document.getElementById("meal_allowance").value = data.meal_allowance || "";
@@ -364,6 +368,7 @@
         }
     </script>
 
+    <script src="review.js"></script>
 </body>
 
 </html>

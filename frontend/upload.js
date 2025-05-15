@@ -24,7 +24,8 @@ function uploadFile(file) {
     nextBtn.style.display = "none";
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `http://${window.location.hostname}:3000/api/contracts/upload-pdf`, true);
+    // xhr.open("POST", `http://${window.location.hostname}:3000/api/contracts/upload-pdf`, true);
+    xhr.open("POST", `http://localhost:3000/api/contracts/upload-pdf`, true);
 
     xhr.upload.onprogress = (event) => {
         if (event.lengthComputable) {

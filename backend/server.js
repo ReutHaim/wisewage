@@ -48,8 +48,12 @@ async function startServer() {
 
     app.use(errorHandler);
 
+    /*app.listen(3000, '0.0.0.0', () => {
+      console.log('Server running on port 3000');
+    });*/
+
     app.listen(3000, '127.0.0.1', () => {
-      console.log('Server running at http://lcoalhost:3000');
+      console.log('Server running on port 3000');
     });
   } catch (err) {
     console.error('Failed to connect to MongoDB', err);
