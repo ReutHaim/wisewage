@@ -5,8 +5,11 @@ function getQueryParam(param) {
 
 async function fetchWorkerData(id) {
     try {
-        // const response = await fetch(`http://${window.location.hostname}:3000/api/workers/${id}`);
-        const response = await fetch(`http://localhost:3000/api/workers/${id}`);
+        const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
+            ? `/api/workers/${id}`  // Use relative path in production
+            : `http://localhost:3000/api/workers/${id}`;
+
+        const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();
@@ -107,7 +110,11 @@ async function handleFormSubmit(event) {
             }
         };
 
-        const response = await fetch(`http://localhost:3000/api/workers/${updatedData.personalId}`, {
+        const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
+            ? `/api/workers/${updatedData.personalId}`  // Use relative path in production
+            : `http://localhost:3000/api/workers/${updatedData.personalId}`;
+
+        const response = await fetch(apiUrl, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

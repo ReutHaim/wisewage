@@ -24,8 +24,11 @@ function uploadFile(file) {
     nextBtn.style.display = "none";
 
     const xhr = new XMLHttpRequest();
-    // xhr.open("POST", `http://${window.location.hostname}:3000/api/contracts/upload-pdf`, true);
-    xhr.open("POST", `http://localhost:3000/api/contracts/upload-pdf`, true);
+    const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
+        ? '/api/contracts/upload-pdf'  // Use relative path in production
+        : 'http://localhost:3000/api/contracts/upload-pdf';
+    
+    xhr.open("POST", apiUrl, true);
 
     xhr.upload.onprogress = (event) => {
         if (event.lengthComputable) {

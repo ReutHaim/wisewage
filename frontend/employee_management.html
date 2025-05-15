@@ -2,7 +2,9 @@
 <html lang="he">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ניהול עובדים</title>
+    <script src="config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -24,6 +26,7 @@
             gap: 30px;
             width: 100%;
             max-width: 1200px;
+            flex-direction: row;
         }
         .sidebar {
             width: 30%;
@@ -104,6 +107,37 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+            
+            .sidebar {
+                width: 100% !important;
+            }
+            
+            .employee-card {
+                width: 100% !important;
+                padding: 15px;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .action-buttons button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>

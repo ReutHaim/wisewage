@@ -4,8 +4,11 @@ async function login() {
     const orgcode = document.getElementById('orgcode').value;
 
     try {
-        // const response = await fetch(`http://${window.location.hostname}:3000/api/auth/login`, {
-        const response = await fetch(`http://localhost:3000/api/auth/login`, {
+        const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il' 
+            ? '/api/auth/login'  // Use relative path in production
+            : 'http://localhost:3000/api/auth/login';
+
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

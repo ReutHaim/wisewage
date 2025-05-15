@@ -4,7 +4,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>אימות נתוני חוזה</title>
+    <script src="config.js?v=2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -337,7 +339,7 @@
                         maxAnnualConvalescenceDays: document.getElementById("max_annual_convalescence_days").value,
                     };
 
-                    fetch(`http://localhost:3000/api/workers/${updatedData.personalId}`, {
+                    fetch(`${window.appConfig.apiBaseUrl}/api/workers/${updatedData.personalId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -368,7 +370,7 @@
         }
     </script>
 
-    <script src="review.js"></script>
+    <script src="review.js?v=2"></script>
 </body>
 
 </html>

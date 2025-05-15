@@ -32,19 +32,16 @@ async function generatePayslip(worker, input) {
     const year = today.getFullYear();
     const workingDays = calculateWorkingDays(month, year);
     
-    // Calculate base values
     const baseSalary = worker.baseSalary || 0;
     const dailyRate = calculateDailyRate(baseSalary, workingDays);
     const vacationDeduction = dailyRate * (input.vacationDays || 0);
     const sickDayDeduction = dailyRate * (input.sickDays || 0);
     
-    // Calculate total allowances
     const totalAllowances = (worker.travelAllowance || 0) +
         (worker.mealAllowance || 0) +
         (worker.phoneAllowance || 0) +
         (worker.carAllowance || 0);
 
-    // Calculate gross salary
     const grossSalary = baseSalary + totalAllowances + (input.monthlyBonus || 0);
 
     const prompt = `

@@ -1,0 +1,31 @@
+# Enable rewrite engine
+RewriteEngine On
+
+# If the request is for an actual file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Proxy API requests to the Node.js backend
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*) http://localhost:3000/api/$1 [P,L]
+
+# For all other routes, serve the appropriate HTML file
+RewriteRule ^employee-management/?$ employee_management.html [L]
+RewriteRule ^generate-payslip/?$ generate_payslip.html [L]
+RewriteRule ^review/?$ review.html [L]
+RewriteRule ^upload/?$ upload.html [L]
+RewriteRule ^home/?$ home.html [L]
+
+# Default to login page
+RewriteRule ^$ login.html [L]
+RewriteRule ^.*$ login.html [L]
+
+# Set CORS headers for API requests
+<IfModule mod_headers.c>
+    SetEnvIf Origin "^http(s)?://(.+\.)?(vmedu421\.mtacloud\.co\.il)$" ORIGIN=$0
+    Header set Access-Control-Allow-Origin %{ORIGIN}e env=ORIGIN
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Origin, X-Requested-With"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule> 
