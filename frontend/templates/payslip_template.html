@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תלוש שכר</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --border-color: #ddd;
+            --text-color: #333;
+            --header-color: #007bff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .company-logo {
+            width: 150px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        h1 {
+            color: var(--header-color);
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin: 25px 0 15px 0;
+            font-size: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: right;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: var(--secondary-color);
+        }
+
+        .summary {
+            margin-top: 30px;
+            border: 2px solid var(--primary-color);
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+            color: #666;
+        }
+
+        .pdf-button {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pdf-button:hover {
+            background-color: #0056b3;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 15px;
+            }
+
+            .pdf-button {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .company-logo {
+                margin-bottom: 15px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>תלוש שכר</h1>
+                <p>לחודש: <span id="month"></span></p>
+            </div>
+            <div class="company-logo" id="company-logo"></div>
+        </div>
+
+        <div class="section">
+            <h2>פרטי מעסיק</h2>
+            <table>
+                <tr>
+                    <th>שם החברה</th>
+                    <th>כתובת</th>
+                    <th>יישוב</th>
+                    <th>תיק ניכויים</th>
+                    <th>מספר תאגיד</th>
+                </tr>
+                <tr>
+                    <td id="company-name"></td>
+                    <td id="company-address"></td>
+                    <td id="company-city"></td>
+                    <td id="tax-file"></td>
+                    <td id="company-id"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>פרטי העובד</h2>
+            <table>
+                <tr>
+                    <th>שם מלא</th>
+                    <th>תפקיד</th>
+                    <th>מחלקה</th>
+                    <th>מספר זהות</th>
+                </tr>
+                <tr>
+                    <td id="employee-name"></td>
+                    <td id="job-title"></td>
+                    <td id="department"></td>
+                    <td id="id-number"></td>
+                </tr>
+                <tr>
+                    <th>תאריך תחילת עבודה</th>
+                    <th>מספר עובד</th>
+                    <th>קופת חולים</th>
+                    <th>נקודות זיכוי</th>
+                </tr>
+                <tr>
+                    <td id="start-date"></td>
+                    <td id="employee-number"></td>
+                    <td id="health-care"></td>
+                    <td id="tax-points"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>פרטי חשבון בנק</h2>
+            <table>
+                <tr>
+                    <th>בנק</th>
+                    <th>סניף</th>
+                    <th>מספר חשבון</th>
+                </tr>
+                <tr>
+                    <td id="bank"></td>
+                    <td id="branch"></td>
+                    <td id="account-number"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>פירוט תשלומים</h2>
+            <table>
+                <tr>
+                    <th style="width: 60%;">תיאור תשלום</th>
+                    <th>סכום (₪)</th>
+                </tr>
+                <tr>
+                    <td>שכר בסיס</td>
+                    <td id="base-salary"></td>
+                </tr>
+                <tr>
+                    <td>החזר נסיעות</td>
+                    <td id="travel-expenses"></td>
+                </tr>
+                <tr>
+                    <td>שווי רכב</td>
+                    <td id="car-value"></td>
+                </tr>
+                <tr>
+                    <td>שווי טלפון</td>
+                    <td id="phone-value"></td>
+                </tr>
+                <tr>
+                    <td>שווי ארוחות</td>
+                    <td id="meals-value"></td>
+                </tr>
+                <tr>
+                    <td>בונוס</td>
+                    <td id="bonus-value"></td>
+                </tr>
+                <tr class="total-row">
+                    <td>סה"כ ברוטו</td>
+                    <td id="total-gross"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>ניכויי חובה</h2>
+            <table>
+                <tr>
+                    <th style="width: 60%;">תיאור</th>
+                    <th>סכום (₪)</th>
+                </tr>
+                <tr>
+                    <td>מס הכנסה</td>
+                    <td id="income-tax"></td>
+                </tr>
+                <tr>
+                    <td>ביטוח לאומי</td>
+                    <td id="national-insurance"></td>
+                </tr>
+                <tr>
+                    <td>ביטוח בריאות</td>
+                    <td id="health-insurance"></td>
+                </tr>
+                <tr class="total-row">
+                    <td>סה"כ ניכויי חובה</td>
+                    <td id="total-mandatory-deductions"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>הפרשות סוציאליות</h2>
+            <table>
+                <tr>
+                    <th>תיאור</th>
+                    <th>ניכוי עובד</th>
+                    <th>הפרשת מעסיק</th>
+                </tr>
+                <tr>
+                    <td>קרן פנסיה</td>
+                    <td id="employee-pension"></td>
+                    <td id="employer-pension"></td>
+                </tr>
+                <tr>
+                    <td>קרן השתלמות</td>
+                    <td id="employee-fund"></td>
+                    <td id="employer-fund"></td>
+                </tr>
+                <tr>
+                    <td>פיצויים</td>
+                    <td>-</td>
+                    <td id="employer-severance"></td>
+                </tr>
+                <tr class="total-row">
+                    <td>סה"כ הפרשות</td>
+                    <td id="total-employee-deductions"></td>
+                    <td id="total-employer-contributions"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>היעדרויות</h2>
+            <table>
+                <tr>
+                    <th>סוג</th>
+                    <th>יתרה קודמת</th>
+                    <th>צבירה</th>
+                    <th>ניצול</th>
+                    <th>יתרה</th>
+                </tr>
+                <tr>
+                    <td>ימי חופשה</td>
+                    <td id="vacation-previous"></td>
+                    <td id="vacation-current"></td>
+                    <td id="vacation-used"></td>
+                    <td id="vacation-balance"></td>
+                </tr>
+                <tr>
+                    <td>ימי מחלה</td>
+                    <td id="sick-previous"></td>
+                    <td id="sick-current"></td>
+                    <td id="sick-used"></td>
+                    <td id="sick-balance"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="summary">
+            <h2>סיכום תלוש</h2>
+            <table>
+                <tr>
+                    <th style="width: 60%;">תיאור</th>
+                    <th>סכום (₪)</th>
+                </tr>
+                <tr>
+                    <td>שכר ברוטו</td>
+                    <td id="final-gross"></td>
+                </tr>
+                <tr>
+                    <td>סה"כ ניכויים</td>
+                    <td id="final-deductions"></td>
+                </tr>
+                <tr class="total-row">
+                    <td>שכר נטו לתשלום</td>
+                    <td id="final-net"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>תלוש זה הופק באמצעות מערכת <span id="company-name-footer"></span></p>
+            <p>תאריך הפקה: <span id="generation-date"></span></p>
+            <p>מסמך זה מהווה אסמכתא רשמית לתשלום שכר.</p>
+        </div>
+
+        <button class="pdf-button" onclick="window.print()">הורד PDF</button>
+    </div>
+
+    <script>
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('he-IL', {
+                style: 'currency',
+                currency: 'ILS',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        }
+
+        function loadPayslipData(data) {
+            // Company Details
+            document.getElementById('company-logo').textContent = data.company.name;
+            document.getElementById('company-name').textContent = data.company.name;
+            document.getElementById('company-address').textContent = data.company.address;
+            document.getElementById('company-city').textContent = data.company.city;
+            document.getElementById('tax-file').textContent = data.company.taxFile;
+            document.getElementById('company-id').textContent = data.company.id;
+            
+            // Employee Details
+            document.getElementById('employee-name').textContent = data.employeeDetails.fullName;
+            document.getElementById('job-title').textContent = data.employeeDetails.role;
+            document.getElementById('department').textContent = data.employeeDetails.department;
+            document.getElementById('id-number').textContent = data.employeeDetails.personalId;
+            document.getElementById('start-date').textContent = data.employeeDetails.startDate;
+            document.getElementById('employee-number').textContent = data.employeeDetails.employeeNumber;
+            document.getElementById('health-care').textContent = data.employeeDetails.healthCare;
+            document.getElementById('tax-points').textContent = data.employeeDetails.taxPoints;
+
+            // Bank Details
+            document.getElementById('bank').textContent = data.bank.bankName;
+            document.getElementById('branch').textContent = data.bank.branch;
+            document.getElementById('account-number').textContent = data.bank.accountNumber;
+
+            // Payments
+            document.getElementById('base-salary').textContent = formatCurrency(data.payments.baseSalary);
+            document.getElementById('travel-expenses').textContent = formatCurrency(data.payments.travelExpenses);
+            document.getElementById('car-value').textContent = formatCurrency(data.payments.carValue);
+            document.getElementById('phone-value').textContent = formatCurrency(data.payments.phoneValue);
+            document.getElementById('meals-value').textContent = formatCurrency(data.payments.mealsValue);
+            document.getElementById('bonus-value').textContent = formatCurrency(data.payments.otherPayments);
+            document.getElementById('total-gross').textContent = formatCurrency(data.payments.totalPayments);
+
+            // Deductions
+            document.getElementById('income-tax').textContent = formatCurrency(data.mandatoryDeductions.incomeTax);
+            document.getElementById('national-insurance').textContent = formatCurrency(data.mandatoryDeductions.nationalInsurance);
+            document.getElementById('health-insurance').textContent = formatCurrency(data.mandatoryDeductions.healthTax);
+            document.getElementById('total-mandatory-deductions').textContent = formatCurrency(data.mandatoryDeductions.total);
+
+            // Social Benefits
+            document.getElementById('employee-pension').textContent = formatCurrency(data.pensionDeductions.employeePension);
+            document.getElementById('employer-pension').textContent = formatCurrency(data.pensionDeductions.employerPension);
+            document.getElementById('employee-fund').textContent = formatCurrency(data.pensionDeductions.employeeFund);
+            document.getElementById('employer-fund').textContent = formatCurrency(data.pensionDeductions.employerFund);
+            document.getElementById('employer-severance').textContent = formatCurrency(data.pensionDeductions.employerSeverance);
+            document.getElementById('total-employee-deductions').textContent = formatCurrency(data.pensionDeductions.totalEmployeeDeductions);
+            document.getElementById('total-employer-contributions').textContent = formatCurrency(data.pensionDeductions.totalEmployerContributions);
+
+            // Absences
+            document.getElementById('vacation-previous').textContent = data.absences.vacation.previous;
+            document.getElementById('vacation-current').textContent = data.absences.vacation.current;
+            document.getElementById('vacation-used').textContent = data.absences.vacation.used;
+            document.getElementById('vacation-balance').textContent = data.absences.vacation.balance;
+            document.getElementById('sick-previous').textContent = data.absences.sick.previous;
+            document.getElementById('sick-current').textContent = data.absences.sick.current;
+            document.getElementById('sick-used').textContent = data.absences.sick.used;
+            document.getElementById('sick-balance').textContent = data.absences.sick.balance;
+
+            // Summary
+            document.getElementById('final-gross').textContent = formatCurrency(data.summary.totalGross);
+            document.getElementById('final-deductions').textContent = formatCurrency(data.summary.totalDeductions);
+            document.getElementById('final-net').textContent = formatCurrency(data.summary.totalNet);
+
+            // Footer
+            document.getElementById('company-name-footer').textContent = data.company.name;
+            document.getElementById('generation-date').textContent = new Date().toLocaleDateString('he-IL');
+            document.getElementById('month').textContent = data.payslip.month;
+        }
+
+        function generatePDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
