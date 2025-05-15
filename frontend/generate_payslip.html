@@ -229,6 +229,38 @@
                 text-align: right;
             }
         }
+
+        .payslip-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-button {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .email-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
@@ -254,8 +286,8 @@
                 <input type="number" id="workingDays" placeholder="הזן מספר ימי עבודה" step="1">
             </div>
             <div class="field">
-                <label>נקודות זכות:</label>
-                <input type="number" id="creditPoints" placeholder="הזן מספר נקודות זכות" step="0.5">
+                <label for="creditPoints">נקודות זיכוי</label>
+                <input type="number" id="creditPoints" required>
             </div>
             <div class="field">
                 <label>שעות עבודה בחודש:</label>
@@ -278,10 +310,55 @@
                 <button class="generate-slip-button" onclick="generatePayslip()">הפקת תלוש</button>
             </div>
 
-            <div id="payslipContainer"></div>
+            <div id="payslipContainer" class="payslip-display">
+                <div class="payslip-actions" style="display: none">
+                    <button class="action-button download-button" onclick="downloadPayslip()">
+                        <i class="fas fa-download"></i> הורד PDF
+                    </button>
+                    <button class="action-button email-button" onclick="sendPayslipByEmail()">
+                        <i class="fas fa-envelope"></i> שלח במייל
+                    </button>
+                </div>
+                <div id="payslipContent"></div>
+            </div>
         </div>
     </div>
 
+    <style>
+        .payslip-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-button {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .email-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
     <script src="generate_payslip.js?v=2"></script>
 
 </body>

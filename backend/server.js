@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
 const cors = require('cors');
+
 
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
