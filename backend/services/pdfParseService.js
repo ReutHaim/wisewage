@@ -59,18 +59,22 @@ CRITICAL RULES FOR EXTRACTION:
    - Monthly bonus amounts stay as monthly
    - Annual bonus amounts must be divided by 12
 
-Return ONLY a valid JSON object (no markdown, no explanation) with the following structure:
+6. PERSONAL ID VS PHONE NUMBER:
+   - Personal ID (תעודת זהות) MUST be exactly 9 digits
+   - Look for תעודת זהות/ת.ז./ת"ז/תז near the beginning of contract
+   - Israeli phone numbers follow these patterns:
+     * Mobile: 05X-XXXXXXX (10 digits total, starts with 050-059)
+     * Landline: 0X-XXXXXXX (9 digits total, starts with 02-04, 08, 09)
+   - DO NOT confuse phone numbers with ID numbers
 
-{
-  "firstName": "שם פרטי - extract first name in Hebrew",
-  "lastName": "שם משפחה - extract last name in Hebrew",
+"lastName": "שם משפחה - extract last name in Hebrew",
   "address": "כתובת - full address in Hebrew",
   "role": "תפקיד/משרה - job title in Hebrew",
   "department": "מחלקה - department name in Hebrew",
   "startDate": "תאריך תחילת עבודה - date in format YYYY-MM-DD",
   "email": "דואר אלקטרוני/אימייל",
-  "phone": "טלפון - format as string",
-  "personalId": "תעודת זהות - 9 digits",
+  "phone": "טלפון/נייד - must match Israeli format: 05X-XXXXXXX for mobile or 0X-XXXXXXX for landline",
+  "personalId": "חפש תעודת זהות/ת.ז./ת"ז/תז - MUST be exactly 9 digits, usually appears at start of contract",
   "baseSalary": "שכר בסיס/משכורת בסיס - extract amount in NIS as number",
   "travelAllowance": "דמי נסיעות/החזר נסיעות - amount in NIS as number, default 0",
   "mealAllowance": "דמי אוכל/ארוחות - amount in NIS as number, default 0",
@@ -118,6 +122,31 @@ Important:
             if (parsed.maxAnnualSickDays === 0) parsed.maxAnnualSickDays = 18;
             if (parsed.maxAnnualVectionDays === 0) parsed.maxAnnualVectionDays = 12;
             if (parsed.maxAnnualConvalescenceDays === 0) parsed.maxAnnualConvalescenceDays = 5;
+
+            // Validate personal ID
+            if (parsed.personalId) {
+                const cleanId = parsed.personalId.replace(/\D/g, ''); // Remove non-digits
+                if (cleanId.length !== 9) {
+                    console.warn("Invalid personal ID length detected, clearing the field");
+                    parsed.personalId = '';
+                } else {
+                    parsed.personalId = cleanId;
+                }
+            }
+
+            // Validate phone number
+            if (parsed.phone) {
+                const cleanPhone = parsed.phone.replace(/\D/g, ''); // Remove non-digits
+                const isValidMobile = /^05\d{8}$/.test(cleanPhone); // 05X-XXXXXXX
+                const isValidLandline = /^0([234]|[89])\d{7}$/.test(cleanPhone); // 0X-XXXXXXX where X is 2-4,8,9
+                
+                if (!isValidMobile && !isValidLandline) {
+                    console.warn("Invalid Israeli phone number format detected, clearing the field");
+                    parsed.phone = '';
+                } else {
+                    parsed.phone = cleanPhone;
+                }
+            }
 
             if (!parsed.contributionRates) {
                 parsed.contributionRates = {};
