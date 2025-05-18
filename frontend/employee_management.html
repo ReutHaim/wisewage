@@ -400,12 +400,12 @@
 
         // טעינת נתוני משתמש
         function loadUserData() {
-            const fullName = localStorage.getItem('fullName') || 'משתמש';
-            document.getElementById('welcome').innerText = `שלום ${fullName}`;
+            const hebrewName = localStorage.getItem('hebrewName') || 'משתמש';
+            document.getElementById('welcome').innerText = `שלום ${hebrewName}`;
             
             // הצגת האות הראשונה של השם באווטר אם אין תמונה
             const userAvatar = document.getElementById('userAvatar');
-            userAvatar.textContent = fullName.charAt(0);
+            userAvatar.textContent = hebrewName.charAt(0);
         }
 
         // פונקציה לפתיחה/סגירה של התפריט

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-    const { name, username, password, companyCode } = req.body;
+    const { name, username, password, companyCode, hebrewName } = req.body;
     const db = req.db;
 
     if (!name || !username || !password || !companyCode) {
@@ -20,6 +20,7 @@ router.post('/signup', async (req, res) => {
             username,
             password,
             companyCode,
+            hebrewName: hebrewName || name,
             createdAt: new Date()
         });
 
@@ -45,7 +46,11 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid username, password, or company code.' });
         }
 
-        res.json({ message: 'Login successful' });
+        res.json({ 
+            message: 'Login successful',
+            name: user.name,
+            hebrewName: user.hebrewName || user.name
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });

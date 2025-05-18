@@ -23,7 +23,8 @@ async function login() {
         const result = await response.json();
 
         if (response.ok) {
-            alert(result.message); // Optional
+            localStorage.setItem('fullName', result.name);
+            localStorage.setItem('hebrewName', result.hebrewName);
             window.location.href = 'home.html';
         } else {
             alert(result.message);
