@@ -67,7 +67,11 @@ CRITICAL RULES FOR EXTRACTION:
      * Landline: 0X-XXXXXXX (9 digits total, starts with 02-04, 08, 09)
    - DO NOT confuse phone numbers with ID numbers
 
-"lastName": "שם משפחה - extract last name in Hebrew",
+Return ONLY a valid JSON object (no markdown, no explanation) with the following structure:
+
+{
+  "firstName": "שם פרטי - extract first name in Hebrew",
+  "lastName": "שם משפחה - extract last name in Hebrew",
   "address": "כתובת - full address in Hebrew",
   "role": "תפקיד/משרה - job title in Hebrew",
   "department": "מחלקה - department name in Hebrew",
