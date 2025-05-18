@@ -275,7 +275,7 @@ router.post('/upload-pdf', upload.single('contract'), async (req, res) => {
             uploadStream.on('finish', resolve);
             uploadStream.on('error', reject);
         });
-
+        
         res.status(201).json({ 
             message: 'העובד והחוזה נשמרו בהצלחה',
             messageEn: 'Worker and contract saved successfully',

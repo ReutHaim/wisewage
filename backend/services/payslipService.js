@@ -6,61 +6,69 @@ const payslipCalculator = require('./payslipCalculator');
 async function generatePayslip(worker, payData, db) {
     try {
         // Get the calculated payslip data from the calculator
-        const calculatedData = await payslipCalculator.calculatePayslip(worker, payData, db);
+        const calculatedData = await payslipCalculator.generatePayslip(worker, payData, db);
 
         // Prepare the data structure that matches our template
         const payslipData = {
-            company: {
-                name: 'WiseWage',
-                address: 'הברזל 3',
-                city: 'תל אביב',
-                taxFile: '123456789',
-                id: '515151515'
-            },
+            company: calculatedData.company,
             employeeDetails: {
                 fullName: `${worker.firstName} ${worker.lastName}`,
-                role: worker.role,
-                department: worker.department,
+                role: worker.role || '',
+                department: worker.department || '',
                 personalId: worker.personalId,
-                startDate: new Date(worker.startDate).toLocaleDateString('he-IL'),
-                employeeNumber: worker.employeeId,
-                healthCare: worker.healthProvider,
+                startDate: worker.startDate ? new Date(worker.startDate).toLocaleDateString('he-IL') : '',
+                employeeNumber: worker.employeeNumber || worker.personalId,
+                healthCare: worker.healthCare || '',
                 taxPoints: payData.creditPoints
             },
             bank: {
-                bankName: worker.bankDetails?.bankName || '',
-                branch: worker.bankDetails?.branch || '',
-                accountNumber: worker.bankDetails?.accountNumber || ''
+                bankName: worker.bankAccount?.bankName || '',
+                branch: worker.bankAccount?.branch || '',
+                accountNumber: worker.bankAccount?.accountNumber || ''
             },
             payments: {
-                baseSalary: calculatedData.salary,
-                travelExpenses: calculatedData.travelAllowance || 0,
-                carValue: calculatedData.carAllowance || 0,
-                phoneValue: calculatedData.phoneAllowance || 0,
-                mealsValue: calculatedData.mealsAllowance || 0,
-                monthlyBonus: calculatedData.monthlyBonus || 0,
-                totalPayments: calculatedData.totalGross
+                baseSalary: calculatedData.payments.baseSalary,
+                travelExpenses: calculatedData.payments.travelExpenses,
+                carValue: calculatedData.payments.carValue,
+                phoneValue: calculatedData.payments.phoneValue,
+                mealsValue: calculatedData.payments.mealsValue,
+                monthlyBonus: calculatedData.payments.monthlyBonus,
+                totalPayments: calculatedData.payments.totalPayments
             },
             mandatoryDeductions: {
-                incomeTax: calculatedData.incomeTax,
-                nationalInsurance: calculatedData.nationalInsurance,
-                healthTax: calculatedData.healthInsurance,
-                total: calculatedData.totalMandatoryDeductions
+                incomeTax: calculatedData.mandatoryDeductions.incomeTax,
+                nationalInsurance: calculatedData.mandatoryDeductions.nationalInsurance,
+                healthTax: calculatedData.mandatoryDeductions.healthTax,
+                total: calculatedData.mandatoryDeductions.total
             },
             pensionDeductions: {
-                employeePension: calculatedData.employeePension,
-                employerPension: calculatedData.employerPension,
-                employeeFund: calculatedData.employeeFund,
-                employerFund: calculatedData.employerFund,
-                employerSeverance: calculatedData.employerSeverance,
-                totalEmployeeDeductions: calculatedData.totalEmployeeDeductions,
-                totalEmployerContributions: calculatedData.totalEmployerContributions
+                employeePension: calculatedData.pensionDeductions.employeePension,
+                employerPension: calculatedData.pensionDeductions.employerPension,
+                employeeFund: calculatedData.pensionDeductions.employeeFund,
+                employerFund: calculatedData.pensionDeductions.employerFund,
+                employerSeverance: calculatedData.pensionDeductions.employerSeverance,
+                totalEmployeeDeductions: calculatedData.pensionDeductions.totalEmployeeDeductions,
+                totalEmployerContributions: calculatedData.pensionDeductions.totalEmployerContributions
             },
-            absences: calculatedData.absences,
+            absences: {
+                vacation: {
+                    previous: 0,
+                    current: 1,
+                    used: Number(payData.vacationDays || 0),
+                    balance: 0
+                },
+                sick: {
+                    previous: 0,
+                    current: 1.5,
+                    used: Number(payData.sickDays || 0),
+                    balance: 0
+                }
+            },
             summary: {
-                totalGross: calculatedData.totalGross,
-                totalDeductions: calculatedData.totalDeductions,
-                totalNet: calculatedData.totalNet
+                totalGross: calculatedData.payments.totalPayments,
+                totalDeductions: calculatedData.mandatoryDeductions.total + calculatedData.pensionDeductions.totalEmployeeDeductions,
+                totalNet: calculatedData.payments.totalPayments - 
+                    (calculatedData.mandatoryDeductions.total + calculatedData.pensionDeductions.totalEmployeeDeductions)
             },
             payslip: {
                 month: new Date().toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })

@@ -46,24 +46,15 @@ const MOCK_COMPANIES = {
 
 class PayslipCalculator {
     async getCompanyData(companyCode, db) {
-        try {
-            if (db) {
-                const company = await db.collection("companies").findOne({ companyCode });
-                if (company) return company;
-            }
-
-            if (MOCK_COMPANIES[companyCode]) {
-                return {
-                    ...MOCK_COMPANIES[companyCode],
-                    companyCode
-                };
-            }
-
-            return MOCK_COMPANIES["COMP001"];
-        } catch (error) {
-            console.warn("Failed to fetch company data, using default mock data:", error);
-            return MOCK_COMPANIES["COMP001"];
-        }
+        // For now, return default company data
+        // In the future, this can be fetched from the database
+        return {
+            name: 'WiseWage',
+            address: 'הברזל 3',
+            city: 'תל אביב',
+            taxFile: '123456789',
+            id: '515151515'
+        };
     }
 
     calculateIncomeTax(grossSalary, creditPoints) {
@@ -250,13 +241,28 @@ class PayslipCalculator {
             pension.employer +
             educationFund.employer;
 
+        // Calculate all components separately to avoid floating point issues
+        const mandatoryDeductionsTotal = Math.round(
+            (incomeTax.amount + nationalInsurance.employee + healthInsurance.amount) * 100
+        ) / 100;
+
+        const pensionDeductionsTotal = Math.round(
+            (pension.employee + educationFund.employee) * 100
+        ) / 100;
+
+        const absenceDeductionsTotal = Math.round(
+            (vacationDeduction + sickDayDeduction) * 100
+        ) / 100;
+
+        const totalDeductionsAmount = mandatoryDeductionsTotal + pensionDeductionsTotal + absenceDeductionsTotal;
+
         return {
             company: {
                 name: company.name,
                 address: company.address,
                 city: company.city,
                 taxFile: company.taxFile,
-                id: company.companyId
+                id: company.companyId || company.id
             },
             payslip: {
                 month: `${month}/${year}`,
@@ -300,18 +306,19 @@ class PayslipCalculator {
                 incomeTax: incomeTax.amount.toFixed(2),
                 nationalInsurance: nationalInsurance.employee.toFixed(2),
                 healthTax: healthInsurance.amount.toFixed(2),
-                total: Math.round(incomeTax.amount + nationalInsurance.employee + healthInsurance.amount).toFixed(2)
+                total: mandatoryDeductionsTotal.toFixed(2)
             },
             pensionDeductions: {
                 employeePension: pension.employee.toFixed(2),
                 employerPension: pension.employer.toFixed(2),
-                employerSeverance: Math.round(numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100).toFixed(2),
+                employerSeverance: (numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100).toFixed(2),
                 employeeFund: educationFund.employee.toFixed(2),
                 employerFund: educationFund.employer.toFixed(2),
                 employeeDisability: "0.00",
                 employerDisability: "0.00",
-                totalEmployeeDeductions: (pension.employee + educationFund.employee).toFixed(2),
-                totalEmployerContributions: (pension.employer + educationFund.employer + Math.round(numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100)).toFixed(2)
+                totalEmployeeDeductions: pensionDeductionsTotal.toFixed(2),
+                totalEmployerContributions: (pension.employer + educationFund.employer + 
+                    (numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100)).toFixed(2)
             },
             cumulativePensionData: {
                 fundName: worker.pensionFund?.name || 'לא צוין',
@@ -319,7 +326,7 @@ class PayslipCalculator {
                 baseSalary: numericBaseSalary.toFixed(2),
                 employeeDeduction: pension.employee.toFixed(2),
                 employerContribution: pension.employer.toFixed(2),
-                employerSeverance: Math.round(numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100).toFixed(2),
+                employerSeverance: (numericBaseSalary * (contributionRates.employerSeverance || 8.33) / 100).toFixed(2),
                 employeePercentage: (contributionRates.employeePension || 6).toFixed(2),
                 employerPercentage: (contributionRates.employerPension || 6.5).toFixed(2),
                 severancePercentage: (contributionRates.employerSeverance || 8.33).toFixed(2)
@@ -349,8 +356,8 @@ class PayslipCalculator {
             },
             summary: {
                 totalGross: grossSalary.toFixed(2),
-                totalDeductions: totalDeductions.toFixed(2),
-                totalNet: (grossSalary - totalDeductions).toFixed(2)
+                totalDeductions: totalDeductionsAmount.toFixed(2),
+                totalNet: (grossSalary - totalDeductionsAmount).toFixed(2)
             }
         };
     }

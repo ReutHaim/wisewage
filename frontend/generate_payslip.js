@@ -17,7 +17,7 @@ async function fetchAndDisplayEmployees() {
             const div = document.createElement('div');
             div.className = 'employee-item';
             div.textContent = fullName;
-            div.onclick = () => selectEmployee(fullName);
+            div.onclick = () => selectEmployee(fullName, div);
             container.appendChild(div);
         });
     } catch (err) {
@@ -25,7 +25,15 @@ async function fetchAndDisplayEmployees() {
     }
 }
 
-function selectEmployee(name) {
+function selectEmployee(name, element) {
+    // Remove selected class from all employee items
+    document.querySelectorAll('.employee-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked element
+    element.classList.add('selected');
+    
     selectedEmployee = name;
     document.querySelector('.payroll-form').style.display = 'block';
     document.querySelector('.payroll-form h3').innerText = `הזנת נתוני שכר עבור ${name}`;
@@ -85,47 +93,58 @@ async function displayPayslip(payslip) {
 }
 
 async function generatePayslip() {
-    const workHours = document.getElementById("workHours").value;
-    const vacationDays = document.getElementById("vacationDays").value;
-    const sickDays = document.getElementById("sickDays").value;
-    const monthlyBonus = document.getElementById("monthlyBonus").value;
-    const workingDays = document.getElementById("workingDays").value;
-    const creditPoints = document.getElementById("creditPoints").value;
+    if (!selectedEmployee) {
+        alert('נא לבחור עובד');
+        return;
+    }
 
-    if (workHours && vacationDays && sickDays && monthlyBonus && workingDays && creditPoints) {
-        try {
-            const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
-                ? '/api/payslips'
-                : 'http://localhost:3000/api/payslips';
+    // Get form values and ensure they are valid numbers
+    const workingDays = Number(document.getElementById('workingDays').value) || 0;
+    const creditPoints = Number(document.getElementById('creditPoints').value) || 0;
+    const workHours = Number(document.getElementById('workHours').value) || 0;
+    const vacationDays = Number(document.getElementById('vacationDays').value) || 0;
+    const sickDays = Number(document.getElementById('sickDays').value) || 0;
+    const monthlyBonus = Number(document.getElementById('monthlyBonus').value) || 0;
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    employeeName: selectedEmployee,
-                    workHours,
-                    vacationDays,
-                    sickDays,
-                    monthlyBonus,
-                    workingDays,
-                    creditPoints
-                })
-            });
+    // Validate that required fields are not zero
+    if (!workingDays) {
+        alert('נא להזין מספר ימי עבודה');
+        return;
+    }
 
-            if (response.ok) {
-                const result = await response.json();
-                currentPayslip = result;
-                displayPayslip(result);
-                document.querySelector('.payslip-actions').style.display = 'flex';
-            } else {
-                alert('שגיאה בהפקת התלוש');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('שגיאה בחיבור לשרת');
+    if (!creditPoints) {
+        alert('נא להזין נקודות זיכוי');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/payslips', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                employeeName: selectedEmployee,
+                workingDays,
+                creditPoints,
+                workHours,
+                vacationDays,
+                sickDays,
+                monthlyBonus
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('שגיאה בהפקת תלוש');
         }
-    } else {
-        alert('נא למלא את כל השדות');
+
+        const payslip = await response.json();
+        currentPayslip = payslip;
+        displayPayslip(payslip);
+        document.querySelector('.payslip-actions').style.display = 'flex';
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
     }
 }
 
@@ -227,4 +246,8 @@ function downloadPayslip() {
     window.print();
 }
 
-document.addEventListener('DOMContentLoaded', fetchAndDisplayEmployees); 
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndDisplayEmployees();
+    // Remove the inline generatePayslip function from HTML
+    document.querySelector('.generate-slip-button').onclick = generatePayslip;
+}); 

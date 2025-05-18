@@ -448,7 +448,7 @@ function initializeApp() {
 }
 
 // Start initialization when the DOM is ready
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', initializeApp); 
 
 // Export functions that need to be accessed from HTML
 window.viewPreviousContracts = viewPreviousContracts;
