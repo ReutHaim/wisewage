@@ -466,7 +466,7 @@
                 </div>
                 <div class="field">
                     <label>בונוס חודשי:</label>
-                    <input type="number" id="monthlyBonus" placeholder="הזן בונוס חודשי" step="0.01">
+                    <input type="number" id="monthlyBonus" placeholder="הזן בונוס חודשי" step="0.01" min="0" value="0">
                 </div>
 
                 <div class="action-buttons">
@@ -527,6 +527,62 @@
     <script>
         // טעינה ראשונית
         loadUserData();
+
+        async function generatePayslip() {
+            const selectedEmployee = document.querySelector('.employee-item.selected');
+            if (!selectedEmployee) {
+                alert('נא לבחור עובד');
+                return;
+            }
+
+            // Get form values and ensure they are valid numbers
+            const workingDays = Number(document.getElementById('workingDays').value) || 0;
+            const creditPoints = Number(document.getElementById('creditPoints').value) || 0;
+            const workHours = Number(document.getElementById('workHours').value) || 0;
+            const vacationDays = Number(document.getElementById('vacationDays').value) || 0;
+            const sickDays = Number(document.getElementById('sickDays').value) || 0;
+            const monthlyBonus = Number(document.getElementById('monthlyBonus').value) || 0;
+
+            // Validate that required fields are not zero
+            if (!workingDays) {
+                alert('נא להזין מספר ימי עבודה');
+                return;
+            }
+
+            if (!creditPoints) {
+                alert('נא להזין נקודות זיכוי');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/payslip', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        employeeName: selectedEmployee.textContent,
+                        workingDays,
+                        creditPoints,
+                        workHours,
+                        vacationDays,
+                        sickDays,
+                        monthlyBonus
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('שגיאה בהפקת תלוש');
+                }
+
+                const payslip = await response.json();
+                displayPayslip(payslip);
+                document.querySelector('.payslip-actions').style.display = 'flex';
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+        }
     </script>
 
 </body>
