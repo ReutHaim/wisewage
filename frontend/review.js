@@ -75,6 +75,12 @@ async function fetchWorkerData(id) {
 async function handleFormSubmit(event) {
     event.preventDefault();
     const fullName = document.getElementById("full_name").value;
+    const workerId = getQueryParam("id");
+    
+    if (!workerId) {
+        Swal.fire('שגיאה', 'לא נמצא מזהה עובד בכתובת', 'error');
+        return;
+    }
     
     try {
         // Create the base worker data object
@@ -109,7 +115,6 @@ async function handleFormSubmit(event) {
             }
         };
 
-        const workerId = getQueryParam("id"); // Get the worker's ID from URL
         const apiUrl = window.location.hostname === 'vmedu421.mtacloud.co.il'
             ? `/api/workers/${workerId}`  // Use relative path in production
             : `http://localhost:3000/api/workers/${workerId}`;

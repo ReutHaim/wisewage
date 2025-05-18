@@ -516,6 +516,12 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const workerId = getQueryParam("id");
+                    if (!workerId) {
+                        Swal.fire('שגיאה', 'לא נמצא מזהה עובד בכתובת', 'error');
+                        return;
+                    }
+
                     const updatedData = {
                         firstName: fullName.split(' ')[0] || "",
                         lastName: fullName.split(' ')[1] || "",
@@ -543,7 +549,7 @@
                         maxAnnualConvalescenceDays: document.getElementById("max_annual_convalescence_days").value,
                     };
 
-                    fetch(`${window.appConfig.apiBaseUrl}/api/workers/${updatedData.personalId}`, {
+                    fetch(`${window.appConfig.apiBaseUrl}/api/workers/${workerId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
