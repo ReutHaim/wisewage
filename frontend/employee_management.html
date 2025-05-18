@@ -10,13 +10,193 @@
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
             direction: rtl;
-            background: #f0f4f8;
+            background-image: url('buildings.jpg'), url('buildings.png'), url('buildings.jpeg'), url('buildings.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding: 30px;
-            min-height: 100vh;
         }
+
+        /* סגנונות לבר הניווט החדש */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(25, 118, 210, 0.95);
+            color: white;
+            padding: 15px 40px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* צד ימין */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* תפריט המבורגר */
+        .menu-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .menu-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+
+        /* תפריט נפתח */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* לוגו */
+        .logo {
+            height: 40px;
+            width: 40px;
+            background-image: url('logo.jpg'), url('logo.png'), url('logo.jpeg'), url('logo.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        /* צד שמאל */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* שלום + שם משתמש */
+        .welcome {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* תמונת משתמש עגולה */
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-image: url('user-avatar.jpg'), url('user-avatar.png'), url('user-avatar.jpeg'), url('user-avatar.gif');
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* כפתור התנתקות */
+        .logout-button {
+            background-color: #ffffff;
+            color: #1976d2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* רספונסיבי */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 20px;
+            }
+            
+            .header-left {
+                gap: 10px;
+            }
+            
+            .welcome {
+                font-size: 16px;
+            }
+            
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
         .container {
             background: white;
             padding: 30px;
@@ -125,7 +305,7 @@
                 padding: 15px;
             }
             
-            body {
+            .main-content {
                 padding: 15px;
             }
             
@@ -142,104 +322,176 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="sidebar">
-        <div class="search">
-            <input type="text" placeholder="חיפוש לפי שם או ת.ז" />
+    <div class="header">
+        <div class="header-right">
+            <button class="menu-button" onclick="toggleMenu()">
+                <div class="menu-icon">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="home.html" class="dropdown-item">דף הבית</a>
+                    <a href="upload.html" class="dropdown-item">קליטת עובד חדש</a>
+                    <a href="employee_management.html" class="dropdown-item">עדכון פרטי עובדים</a>
+                    <a href="generate_payslip.html" class="dropdown-item">הפקת תלושים</a>
+                </div>
+            </button>
+            <div class="logo"></div>
         </div>
-        <div class="department">
-            <h4>הנדסה</h4>
-            <div class="employee-item" onclick="showEmployee('יוסי כהן')">יוסי כהן</div>
+        
+        <div class="header-left">
+            <div class="welcome" id="welcome">שלום</div>
+            <div class="user-avatar" id="userAvatar"></div>
+            <button class="logout-button" onclick="logout()">התנתק</button>
         </div>
-        <div class="department">
-            <h4>רכש</h4>
-            <div class="employee-item" onclick="showEmployee('שרה לוי')">שרה לוי</div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="sidebar">
+                <div class="search">
+                    <input type="text" placeholder="חיפוש לפי שם או ת.ז" />
+                </div>
+                <div class="department">
+                    <h4>הנדסה</h4>
+                    <div class="employee-item" onclick="showEmployee('יוסי כהן')">יוסי כהן</div>
+                </div>
+                <div class="department">
+                    <h4>רכש</h4>
+                    <div class="employee-item" onclick="showEmployee('שרה לוי')">שרה לוי</div>
+                </div>
+            </div>
+
+            <div class="employee-card" id="employeeCard" style="display: none;">
+                <h2 id="employeeHeader">כרטיס עובד</h2>
+                <label>שם פרטי</label>
+                <input type="text" id="firstName" disabled>
+                <label>שם משפחה</label>
+                <input type="text" id="lastName" disabled>
+                <label>תפקיד</label>
+                <input type="text" id="position" disabled>
+                <label>תאריך התחלה</label>
+                <input type="date" id="startDate" disabled>
+                <label>דוא"ל</label>
+                <input type="email" id="email" disabled>
+                <label>טלפון</label>
+                <input type="tel" id="phone" disabled>
+                <label>תנאי שכר</label>
+                <textarea id="salaryTerms" rows="6" disabled></textarea>
+
+                <div class="action-buttons">
+                    <button class="edit-button" onclick="enableEdit()">✏️ עדכון</button>
+                    <button class="save-button" onclick="confirmSave()">💾 שמירת שינויים</button>
+                </div>
+
+                <div class="folders">
+                    <button>📁 חוזי עבודה קודמים</button>
+                    <button>📁 תלושי שכר קודמים</button>
+                    <button>📄 לצפייה בחוזה הנוכחי</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="employee-card" id="employeeCard" style="display: none;">
-        <h2 id="employeeHeader">כרטיס עובד</h2>
-        <label>שם פרטי</label>
-        <input type="text" id="firstName" disabled>
-        <label>שם משפחה</label>
-        <input type="text" id="lastName" disabled>
-        <label>תפקיד</label>
-        <input type="text" id="position" disabled>
-        <label>תאריך התחלה</label>
-        <input type="date" id="startDate" disabled>
-        <label>דוא"ל</label>
-        <input type="email" id="email" disabled>
-        <label>טלפון</label>
-        <input type="tel" id="phone" disabled>
-        <label>תנאי שכר</label>
-        <textarea id="salaryTerms" rows="6" disabled></textarea>
+    <script>
+        // משתנים גלובליים לבר
+        let isMenuOpen = false;
 
-        <div class="action-buttons">
-            <button class="edit-button" onclick="enableEdit()">✏️ עדכון</button>
-            <button class="save-button" onclick="confirmSave()">💾 שמירת שינויים</button>
-        </div>
-
-        <div class="folders">
-            <button>📁 חוזי עבודה קודמים</button>
-            <button>📁 תלושי שכר קודמים</button>
-            <button>📄 לצפייה בחוזה הנוכחי</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    function showEmployee(name) {
-        document.getElementById('employeeCard').style.display = 'block';
-
-        if (name === 'יוסי כהן') {
-            document.getElementById('firstName').value = 'יוסי';
-            document.getElementById('lastName').value = 'כהן';
-            document.getElementById('position').value = 'מפתח תוכנה';
-            document.getElementById('startDate').value = '2023-06-01';
-            document.getElementById('email').value = 'yossi@example.com';
-            document.getElementById('phone').value = '0501234567';
-            document.getElementById('salaryTerms').value = '- שכר בסיס: 20,000 ש"ח\n- בונוס שנתי: עד 10%\n- קרן השתלמות';
-        } else if (name === 'שרה לוי') {
-            document.getElementById('firstName').value = 'שרה';
-            document.getElementById('lastName').value = 'לוי';
-            document.getElementById('position').value = 'רכש טכנולוגי';
-            document.getElementById('startDate').value = '2024-01-15';
-            document.getElementById('email').value = 'sara@example.com';
-            document.getElementById('phone').value = '0507654321';
-            document.getElementById('salaryTerms').value = '- שכר בסיס: 18,000 ש"ח\n- החזר הוצאות\n- ימי חופשה מוגדלים';
+        // טעינת נתוני משתמש
+        function loadUserData() {
+            const fullName = localStorage.getItem('fullName') || 'משתמש';
+            document.getElementById('welcome').innerText = `שלום ${fullName}`;
+            
+            // הצגת האות הראשונה של השם באווטר אם אין תמונה
+            const userAvatar = document.getElementById('userAvatar');
+            userAvatar.textContent = fullName.charAt(0);
         }
 
-        document.getElementById('employeeHeader').innerText = name;
-        disableFields();
-    }
+        // פונקציה לפתיחה/סגירה של התפריט
+        function toggleMenu() {
+            const dropdown = document.getElementById('dropdownMenu');
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                dropdown.classList.add('open');
+            } else {
+                dropdown.classList.remove('open');
+            }
+        }
 
-    function enableEdit() {
-        document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = false);
-    }
-
-    function disableFields() {
-        document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = true);
-    }
-
-    function confirmSave() {
-        Swal.fire({
-            title: 'האם לשמור את השינויים?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'כן, שמור',
-            cancelButtonText: 'ביטול'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                disableFields();
-                Swal.fire({
-                    title: 'השינויים נשמרו בהצלחה!',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+        // סגירת התפריט בלחיצה מחוץ לו
+        document.addEventListener('click', function(event) {
+            const menuButton = document.querySelector('.menu-button');
+            const dropdown = document.getElementById('dropdownMenu');
+            
+            if (!menuButton.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+                isMenuOpen = false;
             }
         });
-    }
-</script>
+
+        // פונקציית התנתקות
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function showEmployee(name) {
+            document.getElementById('employeeCard').style.display = 'block';
+
+            if (name === 'יוסי כהן') {
+                document.getElementById('firstName').value = 'יוסי';
+                document.getElementById('lastName').value = 'כהן';
+                document.getElementById('position').value = 'מפתח תוכנה';
+                document.getElementById('startDate').value = '2023-06-01';
+                document.getElementById('email').value = 'yossi@example.com';
+                document.getElementById('phone').value = '0501234567';
+                document.getElementById('salaryTerms').value = '- שכר בסיס: 20,000 ש"ח\n- בונוס שנתי: עד 10%\n- קרן השתלמות';
+            } else if (name === 'שרה לוי') {
+                document.getElementById('firstName').value = 'שרה';
+                document.getElementById('lastName').value = 'לוי';
+                document.getElementById('position').value = 'רכש טכנולוגי';
+                document.getElementById('startDate').value = '2024-01-15';
+                document.getElementById('email').value = 'sara@example.com';
+                document.getElementById('phone').value = '0507654321';
+                document.getElementById('salaryTerms').value = '- שכר בסיס: 18,000 ש"ח\n- החזר הוצאות\n- ימי חופשה מוגדלים';
+            }
+
+            document.getElementById('employeeHeader').innerText = name;
+            disableFields();
+        }
+
+        function enableEdit() {
+            document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = false);
+        }
+
+        function disableFields() {
+            document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = true);
+        }
+
+        function confirmSave() {
+            Swal.fire({
+                title: 'האם לשמור את השינויים?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'כן, שמור',
+                cancelButtonText: 'ביטול'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    disableFields();
+                    Swal.fire({
+                        title: 'השינויים נשמרו בהצלחה!',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        // טעינה ראשונית של נתוני המשתמש
+        loadUserData();
+    </script>
 </body>
 </html>
