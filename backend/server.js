@@ -4,6 +4,8 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 const cors = require('cors');
 
+// Set Docker container environment variable
+process.env.DOCKER_CONTAINER = true;
 
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -13,6 +15,7 @@ const geminiRoutes = require('./routes/gemini');
 const contracts = require('./routes/contracts');
 const worker = require('./routes/worker');
 const payslip = require('./routes/payslip');
+const documents = require('./routes/documents');
 
 const app = express();
 
@@ -81,9 +84,10 @@ async function startServer() {
 
     app.use('/api/auth', authRoutes);
     app.use('/api/gemini', geminiRoutes);
-    app.use('/api/contracts', contracts);
+    app.use('/api/contracts', contracts);    
     app.use('/api/workers', worker);
     app.use('/api/payslips', payslip);
+    app.use('/api/documents', documents);
 
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, '../frontend/login.html'));

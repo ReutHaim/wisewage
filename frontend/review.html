@@ -278,6 +278,128 @@
             padding: 20px;
             font-style: italic;
         }
+
+        /* Document Management Styles */
+        .document-modal {
+            padding: 20px;
+        }
+
+        .document-modal h3 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .documents-list {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .document-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-title {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .document-date {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .download-btn,
+        .preview-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background-color: #1565c0;
+        }
+
+        .preview-btn {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .preview-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        @media (max-width: 600px) {
+            .document-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .document-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .download-btn,
+            .preview-btn {
+                flex: 1;
+            }
+        }
+
+        /* Document Preview Modal */
+        .swal2-popup.swal2-modal {
+            padding: 0;
+        }
+
+        .swal2-popup.swal2-modal iframe {
+            border-radius: 8px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swal2-popup.swal2-modal .swal2-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            background: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 

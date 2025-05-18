@@ -11,8 +11,13 @@ function cleanGeminiOutput(output) {
         .trim();
 }
 
-async function parseWorkerFromPDF(filePath) {
-    const fileBuffer = fs.readFileSync(filePath);
+async function parseWorkerFromPDF(input) {
+    let fileBuffer;
+    if (Buffer.isBuffer(input)) {
+        fileBuffer = input;
+    } else {
+        fileBuffer = fs.readFileSync(input);
+    }
     
     try {
         const prompt = `You are a contract analyzer specialized in Israeli employment contracts. This PDF contains an employee contract in Hebrew.

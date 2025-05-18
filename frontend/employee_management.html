@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ניהול עובדים</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="config.js"></script>
     <script src="js/common.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="employee_management.js" defer></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -261,14 +262,16 @@
         .action-buttons {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .edit-button, .save-button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
         .edit-button {
             background-color: #ffa000;
@@ -277,6 +280,10 @@
         .save-button {
             background-color: #1976d2;
             color: white;
+        }
+        .edit-button:hover, .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         .folders {
             margin-top: 30px;
@@ -319,6 +326,163 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
+
+            .salary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1976d2;
+            padding-bottom: 5px;
+        }
+        
+        .form-section label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-section input,
+        .form-section select,
+        .form-section textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .form-section input:disabled,
+        .form-section select:disabled,
+        .form-section textarea:disabled {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        .form-section input[type="number"] {
+            text-align: left;
+            direction: ltr;
+        }
+
+        h2 {
+            color: #1976d2;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .salary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .salary-section h3 {
+            color: #2196f3;
+            margin-bottom: 20px;
+        }
+
+        .salary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .readonly-input {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .salary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .no-data-message {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .document-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .doc-button {
+            padding: 12px 20px;
+            background: #90caf9;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #1565c0;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .doc-button:hover {
+            background: #64b5f6;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .document-buttons {
+                flex-direction: column;
+            }
+            
+            .doc-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -354,103 +518,150 @@
                 <div class="search">
                     <input type="text" placeholder="חיפוש לפי שם או ת.ז" />
                 </div>
-                <div class="department">
-                    <h4>הנדסה</h4>
-                    <div class="employee-item" onclick="showEmployee('יוסי כהן')">יוסי כהן</div>
-                </div>
-                <div class="department">
-                    <h4>רכש</h4>
-                    <div class="employee-item" onclick="showEmployee('שרה לוי')">שרה לוי</div>
-                </div>
             </div>
 
             <div class="employee-card" id="employeeCard" style="display: none;">
                 <h2 id="employeeHeader">כרטיס עובד</h2>
-                <label>שם פרטי</label>
-                <input type="text" id="firstName" disabled>
-                <label>שם משפחה</label>
-                <input type="text" id="lastName" disabled>
+                <form id="employeeForm">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h3>פרטים אישיים</h3>
+                        <div class="form-group">
+                            <label>שם מלא</label>
+                            <input type="text" name="full_name" id="full_name" disabled>
+                        </div>
+                        <div class="form-group">
                 <label>תפקיד</label>
-                <input type="text" id="position" disabled>
-                <label>תאריך התחלה</label>
-                <input type="date" id="startDate" disabled>
-                <label>דוא"ל</label>
-                <input type="email" id="email" disabled>
+                            <input type="text" name="position" id="position" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>תאריך תחילת עבודה</label>
+                            <input type="date" name="start_date" id="start_date" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>דוא״ל</label>
+                            <input type="email" name="email" id="email" disabled>
+                        </div>
+                        <div class="form-group">
                 <label>טלפון</label>
-                <input type="tel" id="phone" disabled>
-                <label>תנאי שכר</label>
-                <textarea id="salaryTerms" rows="6" disabled></textarea>
+                            <input type="text" name="phone" id="phone" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>תעודת זהות</label>
+                            <input type="text" name="id_number" id="id_number" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>כתובת</label>
+                            <input type="text" name="address" id="address" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>מחלקה</label>
+                            <input type="text" name="department" id="department" disabled>
+                        </div>
+                    </div>
 
-                <div class="action-buttons">
-                    <button class="edit-button" onclick="enableEdit()">✏️ עדכון</button>
-                    <button class="save-button" onclick="confirmSave()">💾 שמירת שינויים</button>
+                    <!-- Salary Information -->
+                    <div class="salary-section">
+                        <h3>פרטי שכר והטבות</h3>
+                        <div class="salary-grid">
+                            <div class="form-group salary-item">
+                                <label>שכר בסיס</label>
+                                <input type="number" name="base_salary" id="base_salary" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>דמי נסיעות</label>
+                                <input type="number" name="travel_allowance" id="travel_allowance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>דמי אוכל</label>
+                                <input type="number" name="meal_allowance" id="meal_allowance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>דמי טלפון</label>
+                                <input type="number" name="phone_allowance" id="phone_allowance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>אחזקת רכב</label>
+                                <input type="number" name="car_allowance" id="car_allowance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>שעות נוספות</label>
+                                <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>תמורת אי תחרות</label>
+                                <input type="number" name="non_competition_bonus" id="non_competition_bonus" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הטבות נוספות</label>
+                                <input type="number" name="other_allowances" id="other_allowances" step="0.01" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pension and Benefits -->
+                    <div class="salary-section">
+                        <h3>הפרשות פנסיוניות</h3>
+                        <div class="salary-grid">
+                            <div class="form-group salary-item">
+                                <label>הפרשות עובד לפיצויים (%)</label>
+                                <input type="number" name="employee_severance" id="employee_severance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הפרשות מעסיק לפיצויים (%)</label>
+                                <input type="number" name="employer_severance" id="employer_severance" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הפרשות עובד לתגמולים/פנסיה (%)</label>
+                                <input type="number" name="employee_pension" id="employee_pension" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הפרשות מעסיק לתגמולים/פנסיה (%)</label>
+                                <input type="number" name="employer_pension" id="employer_pension" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הפרשות עובד לקרן השתלמות (%)</label>
+                                <input type="number" name="employee_education_fund" id="employee_education_fund" step="0.01" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>הפרשות מעסיק לקרן השתלמות (%)</label>
+                                <input type="number" name="employer_education_fund" id="employer_education_fund" step="0.01" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Annual Days -->
+                    <div class="salary-section">
+                        <h3>ימי זכאות שנתיים</h3>
+                        <div class="salary-grid">
+                            <div class="form-group salary-item">
+                                <label>ימי חופשה שנתיים</label>
+                                <input type="number" name="max_annual_vection_days" id="max_annual_vection_days" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>ימי מחלה שנתיים</label>
+                                <input type="number" name="max_annual_sick_days" id="max_annual_sick_days" disabled>
+                            </div>
+                            <div class="form-group salary-item">
+                                <label>ימי הבראה שנתיים</label>
+                                <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days" disabled>
+                            </div>
+                        </div>
                 </div>
 
-                <div class="folders">
-                    <button>📁 חוזי עבודה קודמים</button>
-                    <button>📁 תלושי שכר קודמים</button>
-                    <button>📄 לצפייה בחוזה הנוכחי</button>
-                </div>
+                    <div class="action-buttons">
+                        <button type="button" class="edit-button" onclick="enableEdit()">✏️ עדכון</button>
+                        <button type="button" class="save-button">💾 שמירת שינויים</button>
+                    </div>
+
+                    <div class="document-buttons">
+                        <button type="button" class="doc-button" onclick="viewPreviousContracts()">📁 חוזי עבודה קודמים</button>
+                        <button type="button" class="doc-button" onclick="viewPayslips()">📁 תלושי שכר קודמים</button>
+                        <button type="button" class="doc-button" onclick="viewCurrentContract()">📄 לצפייה בחוזה הנוכחי</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-    <script>
-        function showEmployee(name) {
-            document.getElementById('employeeCard').style.display = 'block';
-
-            if (name === 'יוסי כהן') {
-                document.getElementById('firstName').value = 'יוסי';
-                document.getElementById('lastName').value = 'כהן';
-                document.getElementById('position').value = 'מפתח תוכנה';
-                document.getElementById('startDate').value = '2023-06-01';
-                document.getElementById('email').value = 'yossi@example.com';
-                document.getElementById('phone').value = '0501234567';
-                document.getElementById('salaryTerms').value = '- שכר בסיס: 20,000 ש"ח\n- בונוס שנתי: עד 10%\n- קרן השתלמות';
-            } else if (name === 'שרה לוי') {
-                document.getElementById('firstName').value = 'שרה';
-                document.getElementById('lastName').value = 'לוי';
-                document.getElementById('position').value = 'רכש טכנולוגי';
-                document.getElementById('startDate').value = '2024-01-15';
-                document.getElementById('email').value = 'sara@example.com';
-                document.getElementById('phone').value = '0507654321';
-                document.getElementById('salaryTerms').value = '- שכר בסיס: 18,000 ש"ח\n- החזר הוצאות\n- ימי חופשה מוגדלים';
-            }
-
-            document.getElementById('employeeHeader').innerText = name;
-            disableFields();
-        }
-
-        function enableEdit() {
-            document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = false);
-        }
-
-        function disableFields() {
-            document.querySelectorAll('#employeeCard input, #employeeCard textarea').forEach(el => el.disabled = true);
-        }
-
-        function confirmSave() {
-            Swal.fire({
-                title: 'האם לשמור את השינויים?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'כן, שמור',
-                cancelButtonText: 'ביטול'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    disableFields();
-                    Swal.fire({
-                        title: 'השינויים נשמרו בהצלחה!',
-                        icon: 'success',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                }
-            });
-        }
-
-        // טעינה ראשונית של נתוני המשתמש
-        loadUserData();
-    </script>
 </body>
 </html>
