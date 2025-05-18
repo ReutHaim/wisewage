@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>דף הבית</title>
     <script src="config.js"></script>
+    <script src="js/common.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -262,57 +263,8 @@
     </div>
 
     <script>
-        const fullName = localStorage.getItem('fullName') || 'משתמש';
-        document.getElementById('welcome').innerText = `שלום ${fullName}`;
-
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html'; // קישור לדף הבית (אפשר לשנות את הקישור אם יש צורך)
-        }
-        // משתנים גלובליים לבר
-let isMenuOpen = false;
-
-// טעינת נתוני משתמש
-function loadUserData() {
-    const hebrewName = localStorage.getItem('hebrewName') || 'משתמש';
-    document.getElementById('welcome').innerText = `שלום ${hebrewName}`;
-    
-    const userAvatar = document.getElementById('userAvatar');
-    userAvatar.textContent = hebrewName.charAt(0);
-}
-
-// פונקציה לפתיחה/סגירה של התפריט
-function toggleMenu() {
-    const dropdown = document.getElementById('dropdownMenu');
-    isMenuOpen = !isMenuOpen;
-    
-    if (isMenuOpen) {
-        dropdown.classList.add('open');
-    } else {
-        dropdown.classList.remove('open');
-    }
-}
-
-// סגירת התפריט בלחיצה מחוץ לו
-document.addEventListener('click', function(event) {
-    const menuButton = document.querySelector('.menu-button');
-    const dropdown = document.getElementById('dropdownMenu');
-    
-    if (!menuButton.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.remove('open');
-        isMenuOpen = false;
-    }
-});
-
-// פונקציית התנתקות
-function logout() {
-    localStorage.clear();
-    window.location.href = 'login.html';
-}
-
-// טעינה ראשונית - צריך לקרוא בטעינת הדף
-loadUserData();
-        
+        // טעינה ראשונית
+        loadUserData();
     </script>
 
 </body>

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>הפקת תלושים</title>
-    <script src="config.js?v=2"></script>
+    <script src="config.js"></script>
+    <script src="js/common.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -522,58 +523,10 @@
     </style>
 
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-    <script src="generate_payslip.js?v=2"></script>
-
+    <script src="generate_payslip.js"></script>
     <script>
-        // משתנים גלובליים לבר
-        let isMenuOpen = false;
-
-        // טעינת נתוני משתמש
-        function loadUserData() {
-            const hebrewName = localStorage.getItem('hebrewName') || 'משתמש';
-            document.getElementById('welcome').innerText = `שלום ${hebrewName}`;
-            
-            // הצגת האות הראשונה של השם באווטר אם אין תמונה
-            const userAvatar = document.getElementById('userAvatar');
-            userAvatar.textContent = hebrewName.charAt(0);
-        }
-
-        // פונקציה לפתיחה/סגירה של התפריט
-        function toggleMenu() {
-            const dropdown = document.getElementById('dropdownMenu');
-            isMenuOpen = !isMenuOpen;
-            
-            if (isMenuOpen) {
-                dropdown.classList.add('open');
-            } else {
-                dropdown.classList.remove('open');
-            }
-        }
-
-        // סגירת התפריט בלחיצה מחוץ לו
-        document.addEventListener('click', function(event) {
-            const menuButton = document.querySelector('.menu-button');
-            const dropdown = document.getElementById('dropdownMenu');
-            
-            if (!menuButton.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('open');
-                isMenuOpen = false;
-            }
-        });
-
-        // פונקציית התנתקות
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
-
         // טעינה ראשונית
         loadUserData();
-
-        // קוד קיים של הדף
-        document.addEventListener('DOMContentLoaded', function() {
-            // ... existing code ...
-        });
     </script>
 
 </body>

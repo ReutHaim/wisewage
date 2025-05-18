@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ניהול עובדים</title>
     <script src="config.js"></script>
+    <script src="js/common.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -395,48 +396,6 @@
     </div>
 
     <script>
-        // משתנים גלובליים לבר
-        let isMenuOpen = false;
-
-        // טעינת נתוני משתמש
-        function loadUserData() {
-            const hebrewName = localStorage.getItem('hebrewName') || 'משתמש';
-            document.getElementById('welcome').innerText = `שלום ${hebrewName}`;
-            
-            // הצגת האות הראשונה של השם באווטר אם אין תמונה
-            const userAvatar = document.getElementById('userAvatar');
-            userAvatar.textContent = hebrewName.charAt(0);
-        }
-
-        // פונקציה לפתיחה/סגירה של התפריט
-        function toggleMenu() {
-            const dropdown = document.getElementById('dropdownMenu');
-            isMenuOpen = !isMenuOpen;
-            
-            if (isMenuOpen) {
-                dropdown.classList.add('open');
-            } else {
-                dropdown.classList.remove('open');
-            }
-        }
-
-        // סגירת התפריט בלחיצה מחוץ לו
-        document.addEventListener('click', function(event) {
-            const menuButton = document.querySelector('.menu-button');
-            const dropdown = document.getElementById('dropdownMenu');
-            
-            if (!menuButton.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('open');
-                isMenuOpen = false;
-            }
-        });
-
-        // פונקציית התנתקות
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
-
         function showEmployee(name) {
             document.getElementById('employeeCard').style.display = 'block';
 
