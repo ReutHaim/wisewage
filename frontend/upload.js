@@ -37,20 +37,34 @@ function uploadFile(file) {
         }
     };
 
-    xhr.onload = function () {
-        if (xhr.status === 201) {
-            const response = JSON.parse(xhr.responseText);
-            uploadedWorkerId = response.workerId;
-            successIcon.style.display = "block";
-            nextMessage.style.display = "block";
-            nextBtn.style.display = "inline-block";
-        } else {
-            alert("שגיאה בהעלאת החוזה: " + xhr.responseText);
-        }
+    xhr.onerror = function() {
+        alert('אירעה שגיאה בהעלאת הקובץ');
     };
 
-    xhr.onerror = function () {
-        alert("אירעה שגיאה בעת שליחת הקובץ לשרת");
+    xhr.onload = function() {
+        try {
+            const response = JSON.parse(xhr.responseText);
+            
+            if (xhr.status === 201) {
+                uploadedWorkerId = response.workerId;
+                successIcon.style.display = "block";
+                nextMessage.style.display = "block";
+                nextBtn.style.display = "inline-block";
+            } else {
+                // Handle different error cases
+                if (xhr.status === 409 && response.workerId) {
+                    // Worker already exists case
+                    if (confirm(response.message + '\nהאם ברצונך לערוך את פרטי העובד הקיים?')) {
+                        window.location.href = `review.html?id=${response.workerId}`;
+                    }
+                } else {
+                    // Other error cases
+                    alert(response.message || 'אירעה שגיאה בהעלאת החוזה');
+                }
+            }
+        } catch (error) {
+            alert('אירעה שגיאה בעיבוד התגובה מהשרת');
+        }
     };
 
     xhr.send(formData);
@@ -63,3 +77,4 @@ function goNext() {
         alert("לא נמצא מזהה עובד. ודא שהקובץ הועלה בהצלחה.");
     }
 }
+
