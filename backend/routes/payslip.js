@@ -9,15 +9,27 @@ router.post("/", async (req, res) => {
         const { employeeName, workHours, vacationDays, sickDays, monthlyBonus, creditPoints, workingDays } = req.body;
 
         const db = req.db;
-        const [firstName, lastName] = employeeName.split(' ');
+        const nameParts = employeeName.trim().split(/\s+/).filter(Boolean);
+        
+        let worker;
+        if (nameParts.length >= 2) {
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(" ");
+            
+            const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const firstNameRegex = escapeRegex(firstName);
+            const lastNameRegex = escapeRegex(lastName);
 
-        const worker = await db.collection("workers").findOne({ firstName, lastName });
-
-        if (!worker) {
-            return res.status(404).send("Worker not found");
+            worker = await db.collection("workers").findOne({
+                firstName: { $regex: new RegExp(`^${firstNameRegex}$`, 'i') },
+                lastName: { $regex: new RegExp(`^${lastNameRegex}$`, 'i') }
+            });
         }
 
-        // If worker doesn't have a company code, assign the default mock company
+        if (!worker) {
+            return res.status(404).send("העובד לא נמצא");
+        }
+
         if (!worker.companyCode) {
             worker.companyCode = 'COMP001';
         }
@@ -38,13 +50,12 @@ router.post("/", async (req, res) => {
             createdAt: new Date()
         });
 
-        // Add the MongoDB _id to the payslip object
         payslip._id = result.insertedId;
 
         res.json(payslip);
     } catch (err) {
         console.error(err);
-        res.status(500).send(err.message || "Failed to generate payslip");
+        res.status(500).send(err.message || "שגיאה בהפקת תלוש השכר");
     }
 });
 
@@ -55,27 +66,39 @@ router.post("/send-email", async (req, res) => {
         const db = req.db;
 
         if (!payslipId) {
-            return res.status(400).send("Payslip ID is required");
+            return res.status(400).send("נדרש מזהה תלוש");
         }
 
-        // Find the worker
-        const [firstName, lastName] = employeeName.split(' ');
-        const worker = await db.collection("workers").findOne({ firstName, lastName });
+        const nameParts = employeeName.trim().split(/\s+/).filter(Boolean);
+        
+        let worker;
+        if (nameParts.length >= 2) {
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(" ");
+            
+            const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const firstNameRegex = escapeRegex(firstName);
+            const lastNameRegex = escapeRegex(lastName);
+
+            worker = await db.collection("workers").findOne({
+                firstName: { $regex: new RegExp(`^${firstNameRegex}$`, 'i') },
+                lastName: { $regex: new RegExp(`^${lastNameRegex}$`, 'i') }
+            });
+        }
 
         if (!worker) {
-            return res.status(404).send("Worker not found");
+            return res.status(404).send("העובד לא נמצא");
         }
 
         if (!worker.email) {
-            return res.status(400).send("Worker does not have an email address");
+            return res.status(400).send("לעובד אין כתובת דואר אלקטרוני");
         }
 
         const payslip = await db.collection("payslips").findOne({ _id: new ObjectId(payslipId) });
         if (!payslip) {
-            return res.status(404).send("Payslip not found");
+            return res.status(404).send("התלוש לא נמצא");
         }
 
-        // Send the email
         const emailResult = await sendPayslipEmail(worker.email, payslip);
         res.json({ 
             success: true,
@@ -83,7 +106,7 @@ router.post("/send-email", async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).send(err.message || "Failed to send email");
+        res.status(500).send(err.message || "שגיאה בשליחת התלוש במייל");
     }
 });
 
