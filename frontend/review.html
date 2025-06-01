@@ -207,6 +207,12 @@
             color: #333;
         }
 
+        .required::after {
+            content: " *";
+            color: red;
+            font-weight: bold;
+        }
+
         input,
         textarea {
             width: 100%;
@@ -432,38 +438,37 @@
     <div class="main-content">
         <div class="container" id="formContainer">
             <h2>אימות נתוני חוזה</h2>
-            <form id="contractForm">
-                <div class="form-group">
-                    <label>שם מלא</label>
-                    <input type="text" name="full_name" id="full_name">
+            <form id="contractForm">                <div class="form-group">
+                    <label class="required">שם מלא</label>
+                    <input type="text" name="full_name" id="full_name" required>
                 </div>
                 <div class="form-group">
-                    <label>תפקיד</label>
-                    <input type="text" name="position" id="position">
+                    <label class="required">תפקיד</label>
+                    <input type="text" name="position" id="position" required>
                 </div>
                 <div class="form-group">
-                    <label>תאריך תחילת עבודה</label>
-                    <input type="date" name="start_date" id="start_date">
+                    <label class="required">תאריך תחילת עבודה</label>
+                    <input type="date" name="start_date" id="start_date" required>
                 </div>
                 <div class="form-group">
-                    <label>דוא״ל</label>
-                    <input type="email" name="email" id="email">
+                    <label class="required">דוא״ל</label>
+                    <input type="email" name="email" id="email" required>
                 </div>
                 <div class="form-group">
-                    <label>טלפון</label>
-                    <input type="text" name="phone" id="phone">
+                    <label class="required">טלפון</label>
+                    <input type="text" name="phone" id="phone" required>
                 </div>
                 <div class="form-group">
-                    <label>תעודת זהות</label>
-                    <input type="text" name="id_number" id="id_number">
+                    <label class="required">תעודת זהות</label>
+                    <input type="text" name="id_number" id="id_number" required>
                 </div>
                 <div class="form-group">
-                    <label>כתובת</label>
-                    <input type="text" name="address" id="address">
+                    <label class="required">כתובת</label>
+                    <input type="text" name="address" id="address" required>
                 </div>
                 <div class="form-group">
-                    <label>מחלקה</label>
-                    <input type="text" name="department" id="department">
+                    <label class="required">מחלקה</label>
+                    <input type="text" name="department" id="department" required>
                 </div>
 
                 <div class="salary-section">

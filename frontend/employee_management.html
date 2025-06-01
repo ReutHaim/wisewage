@@ -411,6 +411,12 @@
             color: #333;
         }
 
+        .required::after {
+            content: " *";
+            color: red;
+            font-weight: bold;
+        }
+
         input,
         textarea {
             width: 100%;
@@ -523,40 +529,39 @@
             <div class="employee-card" id="employeeCard" style="display: none;">
                 <h2 id="employeeHeader">כרטיס עובד</h2>
                 <form id="employeeForm">
-                    <!-- Basic Information -->
-                    <div class="form-section">
+                    <!-- Basic Information -->                    <div class="form-section">
                         <h3>פרטים אישיים</h3>
                         <div class="form-group">
-                            <label>שם מלא</label>
-                            <input type="text" name="full_name" id="full_name" disabled>
+                            <label class="required">שם מלא</label>
+                            <input type="text" name="full_name" id="full_name" disabled required>
                         </div>
                         <div class="form-group">
-                <label>תפקיד</label>
-                            <input type="text" name="position" id="position" disabled>
+                            <label class="required">תפקיד</label>
+                            <input type="text" name="position" id="position" disabled required>
                         </div>
                         <div class="form-group">
-                            <label>תאריך תחילת עבודה</label>
-                            <input type="date" name="start_date" id="start_date" disabled>
+                            <label class="required">תאריך תחילת עבודה</label>
+                            <input type="date" name="start_date" id="start_date" disabled required>
                         </div>
                         <div class="form-group">
-                            <label>דוא״ל</label>
-                            <input type="email" name="email" id="email" disabled>
+                            <label class="required">דוא״ל</label>
+                            <input type="email" name="email" id="email" disabled required>
                         </div>
                         <div class="form-group">
-                <label>טלפון</label>
-                            <input type="text" name="phone" id="phone" disabled>
+                            <label class="required">טלפון</label>
+                            <input type="text" name="phone" id="phone" disabled required>
                         </div>
                         <div class="form-group">
-                            <label>תעודת זהות</label>
-                            <input type="text" name="id_number" id="id_number" disabled>
+                            <label class="required">תעודת זהות</label>
+                            <input type="text" name="id_number" id="id_number" disabled required>
                         </div>
                         <div class="form-group">
-                            <label>כתובת</label>
-                            <input type="text" name="address" id="address" disabled>
+                            <label class="required">כתובת</label>
+                            <input type="text" name="address" id="address" disabled required>
                         </div>
                         <div class="form-group">
-                            <label>מחלקה</label>
-                            <input type="text" name="department" id="department" disabled>
+                            <label class="required">מחלקה</label>
+                            <input type="text" name="department" id="department" disabled required>
                         </div>
                     </div>
 
@@ -567,8 +572,7 @@
                             <div class="form-group salary-item">
                                 <label>שכר בסיס</label>
                                 <input type="number" name="base_salary" id="base_salary" step="0.01" disabled>
-                            </div>
-                            <div class="form-group salary-item">
+                            </div>                        <div class="form-group salary-item">
                                 <label>דמי נסיעות</label>
                                 <input type="number" name="travel_allowance" id="travel_allowance" step="0.01" disabled>
                             </div>
