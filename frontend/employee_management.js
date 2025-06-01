@@ -355,6 +355,11 @@ async function loadEmployeeData(employeeId) {
 async function saveEmployeeData() {
     if (!currentEmployeeId) return;
     
+    // Validate required fields before saving
+    if (!(await validateForm())) {
+        return;
+    }
+    
     try {
         const [firstName, ...lastNameParts] = document.getElementById('full_name').value.split(' ');
         const formData = {
@@ -416,6 +421,49 @@ async function saveEmployeeData() {
     }
 }
 
+// Validation function for required fields
+async function validateForm() {
+    const requiredFields = {
+        'full_name': 'שם מלא',
+        'position': 'תפקיד',
+        'start_date': 'תאריך תחילת עבודה',
+        'email': 'דוא״ל',
+        'phone': 'טלפון',
+        'id_number': 'תעודת זהות',
+        'address': 'כתובת',
+        'department': 'מחלקה',
+        'base_salary': 'שכר בסיס',
+        'employer_severance': 'הפרשות מעסיק לפיצויים',
+        'employee_pension': 'הפרשות עובד לתגמולים/פנסיה',
+        'employer_pension': 'הפרשות מעסיק לתגמולים/פנסיה',
+        'max_annual_vection_days': 'ימי חופשה שנתיים',
+        'max_annual_sick_days': 'ימי מחלה שנתיים',
+        'max_annual_convalescence_days': 'ימי הבראה שנתיים'
+    };
+
+    let missingFields = [];
+    for (const [fieldId, fieldName] of Object.entries(requiredFields)) {
+        const element = document.getElementById(fieldId);
+        if (!element.value) {
+            missingFields.push(fieldName);
+            element.classList.add('invalid');
+        } else {
+            element.classList.remove('invalid');
+        }
+    }
+
+    if (missingFields.length > 0) {
+        await Swal.fire({
+            title: 'שדות חובה חסרים',
+            html: `אנא מלא את השדות הבאים:<br>${missingFields.join('<br>')}`,
+            icon: 'error',
+            confirmButtonText: 'אישור'
+        });
+        return false;
+    }
+    return true;
+}
+
 function setupEventListeners() {
     document.querySelector('.save-button').onclick = saveEmployeeData;
 
@@ -456,4 +504,4 @@ window.viewPayslips = viewPayslips;
 window.viewCurrentContract = viewCurrentContract;
 window.downloadDocument = downloadDocument;
 window.viewDocumentPreview = viewDocumentPreview;
-window.generateNewContract = generateNewContract; 
+window.generateNewContract = generateNewContract;

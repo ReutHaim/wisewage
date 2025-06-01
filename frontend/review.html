@@ -275,7 +275,7 @@
             background: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .no-data-message {
@@ -420,14 +420,17 @@
                 </div>
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a href="home.html" class="dropdown-item" onclick="return handleNavigation(event)">דף הבית</a>
-                    <a href="upload.html" class="dropdown-item" onclick="return handleNavigation(event)">קליטת עובד חדש</a>
-                    <a href="employee_management.html" class="dropdown-item" onclick="return handleNavigation(event)">עדכון פרטי עובדים</a>
-                    <a href="generate_payslip.html" class="dropdown-item" onclick="return handleNavigation(event)">הפקת תלושים</a>
+                    <a href="upload.html" class="dropdown-item" onclick="return handleNavigation(event)">קליטת עובד
+                        חדש</a>
+                    <a href="employee_management.html" class="dropdown-item"
+                        onclick="return handleNavigation(event)">עדכון פרטי עובדים</a>
+                    <a href="generate_payslip.html" class="dropdown-item" onclick="return handleNavigation(event)">הפקת
+                        תלושים</a>
                 </div>
             </button>
             <div class="logo"></div>
         </div>
-        
+
         <div class="header-left">
             <div class="welcome" id="welcome">שלום</div>
             <div class="user-avatar" id="userAvatar"></div>
@@ -438,7 +441,8 @@
     <div class="main-content">
         <div class="container" id="formContainer">
             <h2>אימות נתוני חוזה</h2>
-            <form id="contractForm">                <div class="form-group">
+            <form id="contractForm">
+                <div class="form-group">
                     <label class="required">שם מלא</label>
                     <input type="text" name="full_name" id="full_name" required>
                 </div>
@@ -471,85 +475,92 @@
                     <input type="text" name="department" id="department" required>
                 </div>
 
+                <!-- Salary Information -->
                 <div class="salary-section">
                     <h3>פרטי שכר והטבות</h3>
-                    <div id="noSalaryData" class="no-data-message hidden">
-                        לא נמצאו נתוני שכר
-                    </div>
-                    <div class="salary-grid" id="salaryGrid">
-                        <div class="form-group salary-item" id="baseSalaryGroup">
-                            <label>שכר בסיס</label>
-                            <input type="number" name="base_salary" id="base_salary" step="0.01">
+                    <div class="salary-grid">
+                        <div class="form-group salary-item">
+                            <label class="required">שכר בסיס</label>
+                            <input type="number" name="base_salary" id="base_salary" step="0.01" required>
                         </div>
-                        <div class="form-group salary-item" id="travelAllowanceGroup">
+                        <div class="form-group salary-item">
                             <label>דמי נסיעות</label>
                             <input type="number" name="travel_allowance" id="travel_allowance" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="mealAllowanceGroup">
+                        <div class="form-group salary-item">
                             <label>דמי אוכל</label>
                             <input type="number" name="meal_allowance" id="meal_allowance" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="phoneAllowanceGroup">
+                        <div class="form-group salary-item">
                             <label>דמי טלפון</label>
                             <input type="number" name="phone_allowance" id="phone_allowance" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="carAllowanceGroup">
+                        <div class="form-group salary-item">
                             <label>אחזקת רכב</label>
                             <input type="number" name="car_allowance" id="car_allowance" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="extraHoursBonusGroup">
+                        <div class="form-group salary-item">
                             <label>שעות נוספות</label>
                             <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="nonCompetitionBonusGroup">
+                        <div class="form-group salary-item">
                             <label>תמורת אי תחרות</label>
                             <input type="number" name="non_competition_bonus" id="non_competition_bonus" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="otherAllowancesGroup">
+                        <div class="form-group salary-item">
                             <label>הטבות נוספות</label>
                             <input type="number" name="other_allowances" id="other_allowances" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="employeeSeveranceGroup">
+                    </div>
+                </div>
+
+                <!-- Contributions Section -->
+                <div class="salary-section">
+                    <h3>הפרשות</h3>
+                    <div class="salary-grid">
+                        <div class="form-group salary-item">
                             <label>הפרשות עובד לפיצויים (%)</label>
                             <input type="number" name="employee_severance" id="employee_severance" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="employerSeveranceGroup">
-                            <label>הפרשות מעסיק לפיצויים (%)</label>
-                            <input type="number" name="employer_severance" id="employer_severance" step="0.01">
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות מעסיק לפיצויים (%)</label>
+                            <input type="number" name="employer_severance" id="employer_severance" step="0.01" required>
                         </div>
-                        <div class="form-group salary-item" id="employeePensionGroup">
-                            <label>הפרשות עובד לתגמולים/פנסיה (%)</label>
-                            <input type="number" name="employee_pension" id="employee_pension" step="0.01">
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות עובד לתגמולים/פנסיה (%)</label>
+                            <input type="number" name="employee_pension" id="employee_pension" step="0.01" required>
                         </div>
-                        <div class="form-group salary-item" id="employerPensionGroup">
-                            <label>הפרשות מעסיק לתגמולים/פנסיה (%)</label>
-                            <input type="number" name="employer_pension" id="employer_pension" step="0.01">
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות מעסיק לתגמולים/פנסיה (%)</label>
+                            <input type="number" name="employer_pension" id="employer_pension" step="0.01" required>
                         </div>
-                        <div class="form-group salary-item" id="employeeEducationFundGroup">
+                        <div class="form-group salary-item">
                             <label>הפרשות עובד לקרן השתלמות (%)</label>
                             <input type="number" name="employee_education_fund" id="employee_education_fund" step="0.01">
                         </div>
-                        <div class="form-group salary-item" id="employerEducationFundGroup">
+                        <div class="form-group salary-item">
                             <label>הפרשות מעסיק לקרן השתלמות (%)</label>
                             <input type="number" name="employer_education_fund" id="employer_education_fund" step="0.01">
                         </div>
                     </div>
                 </div>
 
+                <!-- Annual Days Section -->
                 <div class="salary-section">
                     <h3>ימי זכאות שנתיים</h3>
                     <div class="salary-grid">
                         <div class="form-group salary-item" id="maxAnnualVectionDaysGroup">
-                            <label>ימי חופשה שנתיים</label>
-                            <input type="number" name="max_annual_vection_days" id="max_annual_vection_days">
+                            <label class="required">ימי חופשה שנתיים</label>
+                            <input type="number" name="max_annual_vection_days" id="max_annual_vection_days" required>
                         </div>
                         <div class="form-group salary-item" id="maxAnnualSickDaysGroup">
-                            <label>ימי מחלה שנתיים</label>
-                            <input type="number" name="max_annual_sick_days" id="max_annual_sick_days">
+                            <label class="required">ימי מחלה שנתיים</label>
+                            <input type="number" name="max_annual_sick_days" id="max_annual_sick_days" required>
                         </div>
                         <div class="form-group salary-item" id="maxAnnualConvalescenceDaysGroup">
-                            <label>ימי הבראה שנתיים</label>
-                            <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days">
+                            <label class="required">ימי הבראה שנתיים</label>
+                            <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days"
+                                required>
                         </div>
                     </div>
                 </div>
@@ -569,7 +580,7 @@
         async function handleNavigation(event) {
             event.preventDefault();
             const targetUrl = event.target.href;
-            
+
             const result = await Swal.fire({
                 title: 'שים לב!',
                 text: 'המידע יישמר במצבו הנוכחי. האם ברצונך להמשיך?',
