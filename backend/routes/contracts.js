@@ -203,6 +203,13 @@ router.post('/upload-pdf', upload.single('contract'), async (req, res) => {
         });
     }
 
+    if (req.file.mimetype !== 'application/pdf') {
+        return res.status(400).json({
+            message: 'רק קבצי PDF מותרים',
+            messageEn: 'Only PDF files are allowed'
+        });
+    }
+
     try {
         const workerData = await parseWorkerFromPDF(req.file.buffer);
 

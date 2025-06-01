@@ -9,7 +9,13 @@ let uploadedWorkerId = null;
 
 fileInput.addEventListener("change", () => {
     if (fileInput.files.length > 0) {
-        uploadFile(fileInput.files[0]);
+        const file = fileInput.files[0];
+        if (file.type !== 'application/pdf') {
+            alert('אנא בחר קובץ PDF בלבד');
+            fileInput.value = ''; // Clear the file input
+            return;
+        }
+        uploadFile(file);
     }
 });
 
