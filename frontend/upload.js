@@ -45,6 +45,13 @@ function uploadFile(file) {
 
     xhr.onerror = function() {
         alert('אירעה שגיאה בהעלאת הקובץ');
+        // Reset the file input and UI
+        fileInput.value = '';
+        progressContainer.style.display = "none";
+        progressBar.style.width = "0%";
+        successIcon.style.display = "none";
+        nextMessage.style.display = "none";
+        nextBtn.style.display = "none";
     };
 
     xhr.onload = function() {
@@ -64,12 +71,26 @@ function uploadFile(file) {
                         window.location.href = `review.html?id=${response.workerId}`;
                     }
                 } else {
-                    // Other error cases
+                    // Display the error message from the backend
                     alert(response.message || 'אירעה שגיאה בהעלאת החוזה');
+                    // Reset the file input and UI
+                    fileInput.value = '';
+                    progressContainer.style.display = "none";
+                    progressBar.style.width = "0%";
+                    successIcon.style.display = "none";
+                    nextMessage.style.display = "none";
+                    nextBtn.style.display = "none";
                 }
             }
         } catch (error) {
             alert('אירעה שגיאה בעיבוד התגובה מהשרת');
+            // Reset the file input and UI
+            fileInput.value = '';
+            progressContainer.style.display = "none";
+            progressBar.style.width = "0%";
+            successIcon.style.display = "none";
+            nextMessage.style.display = "none";
+            nextBtn.style.display = "none";
         }
     };
 

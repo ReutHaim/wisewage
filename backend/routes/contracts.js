@@ -5,6 +5,7 @@ const path = require('path');
 const { ObjectId } = require('mongodb');
 const { GridFSBucket } = require('mongodb');
 const { parseWorkerFromPDF } = require('../services/pdfParseService');
+const pdfParse = require('pdf-parse');
 
 const router = express.Router();
 
@@ -211,6 +212,14 @@ router.post('/upload-pdf', upload.single('contract'), async (req, res) => {
     }
 
     try {
+        // Check if PDF has content
+        const pdfData = await pdfParse(req.file.buffer);
+        if (!pdfData || !pdfData.text || pdfData.text.trim().length === 0) {
+            return res.status(400).json({
+                message: 'הקובץ ריק או לא מכיל תוכן'
+            });
+        }
+
         const workerData = await parseWorkerFromPDF(req.file.buffer);
 
         if (!workerData.contributionRates) {
