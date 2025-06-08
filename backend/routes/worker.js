@@ -1,7 +1,33 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const { parseWorkerFromPDF } = require('../services/pdfParseService');
 const router = express.Router();
 
+// Configure multer for file uploads
+const upload = multer({ 
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            const contractsDir = path.join(__dirname, '..', 'contracts');
+            if (!fs.existsSync(contractsDir)) {
+                fs.mkdirSync(contractsDir, { recursive: true });
+            }
+            cb(null, contractsDir);
+        },
+        filename: function (req, file, cb) {
+            const timestamp = Date.now();
+            cb(null, `contract_${req.params.id}_${timestamp}.pdf`);
+        }
+    }),
+    fileFilter: function (req, file, cb) {
+        if (file.mimetype !== 'application/pdf') {
+            return cb(new Error('Only PDF files are allowed'));
+        }
+        cb(null, true);
+    }
+});
 
 // CREATE worker
 router.post('/', async (req, res) => {
@@ -196,6 +222,96 @@ router.delete('/:personalId', async (req, res) => {
     console.error('Delete error:', err);
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+// Upload contract
+router.post('/:id/upload-contract', upload.single('contract'), async (req, res) => {
+    const db = req.db;
+    const { id } = req.params;
+
+    if (!req.file) {
+        return res.status(400).json({ 
+            message: 'לא נבחר קובץ להעלאה',
+            messageEn: 'No file uploaded'
+        });
+    }
+
+    try {
+        // Check if worker exists
+        const worker = await db.collection('workers').findOne({ _id: new ObjectId(id) });
+        if (!worker) {
+            return res.status(404).json({ message: 'Worker not found' });
+        }
+
+        // Parse the contract to extract worker information
+        const parsedData = await parseWorkerFromPDF(req.file.path);
+
+        // Return the parsed data for review
+        res.json({ 
+            message: 'החוזה הועלה ונותח בהצלחה',
+            messageEn: 'Contract uploaded and analyzed successfully',
+            contractPath: req.file.path,
+            parsedData: parsedData,
+            currentData: worker // Include current worker data for comparison
+        });
+    } catch (err) {
+        console.error('Contract upload error:', err);
+        res.status(500).json({ 
+            message: 'שגיאה בהעלאת או ניתוח החוזה',
+            messageEn: 'Failed to upload or analyze contract',
+            error: err.message 
+        });
+    }
+});
+
+// New endpoint to save reviewed contract data
+router.post('/:id/save-contract-data', async (req, res) => {
+    const db = req.db;
+    const { id } = req.params;
+    const { contractPath, parsedData } = req.body;
+
+    try {
+        // Update worker with new contract path and parsed data
+        const updateData = {
+            contractPath: contractPath,
+            // Update only the fields that are present in the parsed data
+            ...(parsedData.address && { address: parsedData.address }),
+            ...(parsedData.role && { role: parsedData.role }),
+            ...(parsedData.department && { department: parsedData.department }),
+            ...(parsedData.email && { email: parsedData.email }),
+            ...(parsedData.phone && { phone: parsedData.phone }),
+            ...(parsedData.baseSalary && { baseSalary: parsedData.baseSalary }),
+            ...(parsedData.travelAllowance && { travelAllowance: parsedData.travelAllowance }),
+            ...(parsedData.mealAllowance && { mealAllowance: parsedData.mealAllowance }),
+            ...(parsedData.phoneAllowance && { phoneAllowance: parsedData.phoneAllowance }),
+            ...(parsedData.carAllowance && { carAllowance: parsedData.carAllowance }),
+            ...(parsedData.extraHoursBonus && { extraHoursBonus: parsedData.extraHoursBonus }),
+            ...(parsedData.nonCompetitionBonus && { nonCompetitionBonus: parsedData.nonCompetitionBonus }),
+            ...(parsedData.otherAllowances && { otherAllowances: parsedData.otherAllowances }),
+            ...(parsedData.maxAnnualVectionDays && { maxAnnualVectionDays: parsedData.maxAnnualVectionDays }),
+            ...(parsedData.maxAnnualSickDays && { maxAnnualSickDays: parsedData.maxAnnualSickDays }),
+            ...(parsedData.maxAnnualConvalescenceDays && { maxAnnualConvalescenceDays: parsedData.maxAnnualConvalescenceDays }),
+            ...(parsedData.contributionRates && { contributionRates: parsedData.contributionRates })
+        };
+
+        await db.collection('workers').updateOne(
+            { _id: new ObjectId(id) },
+            { $set: updateData }
+        );
+
+        res.json({ 
+            message: 'הנתונים עודכנו בהצלחה',
+            messageEn: 'Data updated successfully',
+            updatedData: updateData
+        });
+    } catch (err) {
+        console.error('Save contract data error:', err);
+        res.status(500).json({ 
+            message: 'שגיאה בשמירת הנתונים',
+            messageEn: 'Failed to save data',
+            error: err.message 
+        });
+    }
 });
 
 module.exports = router;

@@ -214,37 +214,70 @@ async function viewCurrentContract() {
 }
 
 async function generateNewContract() {
-    try {
-        const response = await fetch(`${window.appConfig.apiBaseUrl}/api/employees/${currentEmployeeId}/generate-contract`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        
-        if (!response.ok) throw new Error('Failed to generate new contract');
-        
-        const result = await response.json();
-        
-        Swal.fire({
-            title: 'החוזה נוצר בהצלחה!',
-            text: 'החוזה החדש נוצר ונשמר במערכת',
-            icon: 'success',
-            showConfirmButton: true,
-            confirmButtonText: 'צפה בחוזה',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                viewCurrentContract();
-            }
-        });
-    } catch (error) {
-        console.error('Error generating new contract:', error);
-        Swal.fire({
-            title: 'שגיאה!',
-            text: 'אירעה שגיאה ביצירת החוזה החדש',
-            icon: 'error'
-        });
+    if (!currentEmployeeId) {
+        Swal.fire('שגיאה', 'יש לבחור עובד תחילה', 'error');
+        return;
     }
+
+    // Create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.pdf';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    // Trigger file selection
+    fileInput.click();
+
+    fileInput.onchange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+            // Show loading state
+            Swal.fire({
+                title: 'מעלה חוזה...',
+                text: 'אנא המתן',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Create FormData and append file
+            const formData = new FormData();
+            formData.append('contract', file);
+
+            // Upload the contract
+            const response = await fetch(`${window.appConfig.apiBaseUrl}/api/workers/${currentEmployeeId}/upload-contract`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload contract');
+            }
+
+            const data = await response.json();
+
+            // Redirect to contract review page with the necessary data
+            const queryParams = new URLSearchParams({
+                id: currentEmployeeId,
+                contractPath: data.contractPath,
+                parsedData: encodeURIComponent(JSON.stringify(data.parsedData)),
+                currentData: encodeURIComponent(JSON.stringify(data.currentData))
+            });
+
+            window.location.href = `contract_review.html?${queryParams.toString()}`;
+
+        } catch (error) {
+            console.error('Error uploading contract:', error);
+            Swal.fire('שגיאה', 'אירעה שגיאה בעת העלאת החוזה', 'error');
+        } finally {
+            // Clean up
+            document.body.removeChild(fileInput);
+        }
+    };
 }
 
 async function loadEmployeesList() {

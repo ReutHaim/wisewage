@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>סקירת חוזה</title>
+    <script src="config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            direction: rtl;
+            background-image: url('buildings.jpg'), url('buildings.png'), url('buildings.jpeg'), url('buildings.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(25, 118, 210, 0.95);
+            color: white;
+            padding: 15px 40px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .logo {
+            height: 40px;
+            width: 40px;
+            background-image: url('logo.jpg'), url('logo.png'), url('logo.jpeg'), url('logo.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .welcome {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logout-button {
+            background-color: #ffffff;
+            color: #1976d2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            margin-top: 80px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #1976d2;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .salary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .salary-section h3 {
+            color: #2196f3;
+            margin-bottom: 20px;
+        }
+
+        .salary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .required::after {
+            content: " *";
+            color: red;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .readonly-input {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+        }
+
+        .success-message h2 {
+            color: green;
+        }
+
+        .home-btn {
+            margin-top: 20px;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .salary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-data-message {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-right">
+            <button class="menu-button" onclick="toggleMenu()">
+                <div class="menu-icon">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="home.html" class="dropdown-item" onclick="return handleNavigation(event)">דף הבית</a>
+                    <a href="upload.html" class="dropdown-item" onclick="return handleNavigation(event)">קליטת עובד חדש</a>
+                    <a href="employee_management.html" class="dropdown-item" onclick="return handleNavigation(event)">עדכון פרטי עובדים</a>
+                    <a href="generate_payslip.html" class="dropdown-item" onclick="return handleNavigation(event)">הפקת תלושים</a>
+                    <a href="dashboard.html" class="dropdown-item" onclick="return handleNavigation(event)">דשבורד</a>
+                </div>
+            </button>
+            <div class="logo"></div>
+        </div>
+
+        <div class="header-left">
+            <div class="welcome" id="welcome">שלום</div>
+            <div class="user-avatar" id="userAvatar"></div>
+            <button class="logout-button" onclick="logout()">התנתק</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container" id="formContainer">
+            <h2>סקירת חוזה</h2>
+            <form id="contractForm">
+                <div class="form-group">
+                    <label class="required">שם מלא</label>
+                    <input type="text" name="full_name" id="full_name" class="readonly-input" readonly required>
+                </div>
+                <div class="form-group">
+                    <label class="required">תפקיד</label>
+                    <input type="text" name="position" id="position" required>
+                </div>
+                <div class="form-group">
+                    <label class="required">תאריך תחילת עבודה</label>
+                    <input type="date" name="start_date" id="start_date" class="readonly-input" readonly required>
+                </div>
+                <div class="form-group">
+                    <label class="required">דוא״ל</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="required">טלפון</label>
+                    <input type="text" name="phone" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label class="required">תעודת זהות</label>
+                    <input type="text" name="id_number" id="id_number" class="readonly-input" readonly required>
+                </div>
+                <div class="form-group">
+                    <label class="required">כתובת</label>
+                    <input type="text" name="address" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label class="required">מחלקה</label>
+                    <input type="text" name="department" id="department" required>
+                </div>
+
+                <!-- Salary Information -->
+                <div class="salary-section">
+                    <h3>פרטי שכר והטבות</h3>
+                    <div class="salary-grid">
+                        <div class="form-group salary-item">
+                            <label class="required">שכר בסיס</label>
+                            <input type="number" name="base_salary" id="base_salary" step="0.01" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>דמי נסיעות</label>
+                            <input type="number" name="travel_allowance" id="travel_allowance" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>דמי אוכל</label>
+                            <input type="number" name="meal_allowance" id="meal_allowance" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>דמי טלפון</label>
+                            <input type="number" name="phone_allowance" id="phone_allowance" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>אחזקת רכב</label>
+                            <input type="number" name="car_allowance" id="car_allowance" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>שעות נוספות</label>
+                            <input type="number" name="extra_hours_bonus" id="extra_hours_bonus" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>תמורת אי תחרות</label>
+                            <input type="number" name="non_competition_bonus" id="non_competition_bonus" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>הטבות נוספות</label>
+                            <input type="number" name="other_allowances" id="other_allowances" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contributions Section -->
+                <div class="salary-section">
+                    <h3>הפרשות</h3>
+                    <div class="salary-grid">
+                        <div class="form-group salary-item">
+                            <label>הפרשות עובד לפיצויים (%)</label>
+                            <input type="number" name="employee_severance" id="employee_severance" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות מעסיק לפיצויים (%)</label>
+                            <input type="number" name="employer_severance" id="employer_severance" step="0.01" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות עובד לתגמולים/פנסיה (%)</label>
+                            <input type="number" name="employee_pension" id="employee_pension" step="0.01" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label class="required">הפרשות מעסיק לתגמולים/פנסיה (%)</label>
+                            <input type="number" name="employer_pension" id="employer_pension" step="0.01" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>הפרשות עובד לקרן השתלמות (%)</label>
+                            <input type="number" name="employee_education_fund" id="employee_education_fund" step="0.01">
+                        </div>
+                        <div class="form-group salary-item">
+                            <label>הפרשות מעסיק לקרן השתלמות (%)</label>
+                            <input type="number" name="employer_education_fund" id="employer_education_fund" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Annual Days Section -->
+                <div class="salary-section">
+                    <h3>ימי זכאות שנתיים</h3>
+                    <div class="salary-grid">
+                        <div class="form-group salary-item">
+                            <label class="required">ימי חופשה שנתיים</label>
+                            <input type="number" name="max_annual_vection_days" id="max_annual_vection_days" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label class="required">ימי מחלה שנתיים</label>
+                            <input type="number" name="max_annual_sick_days" id="max_annual_sick_days" required>
+                        </div>
+                        <div class="form-group salary-item">
+                            <label class="required">ימי הבראה שנתיים</label>
+                            <input type="number" name="max_annual_convalescence_days" id="max_annual_convalescence_days" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" type="submit">שמירת חוזה</button>
+            </form>
+        </div>
+
+        <div class="container success-message" id="successMessage">
+            <h2 id="successText"></h2>
+            <button class="home-btn" onclick="goHome()">חזרה לדף הבית</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <script src="config.js"></script>
+    <script src="contract_review.js"></script>
+    <script>
+        loadUserData();
+    </script>
+</body>
+
+</html> 
