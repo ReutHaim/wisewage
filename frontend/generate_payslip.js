@@ -141,7 +141,10 @@ async function generatePayslip() {
         const payslip = await response.json();
         currentPayslip = payslip;
         displayPayslip(payslip);
-        document.querySelector('.payslip-actions').style.display = 'flex';
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     } catch (error) {
         console.error('Error:', error);
         alert(error.message);
