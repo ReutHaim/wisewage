@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,7 +163,7 @@
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .dashboard-header h1 {
@@ -204,14 +205,14 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         }
 
         .stat-header {
@@ -250,8 +251,13 @@
             font-weight: 500;
         }
 
-        .positive { color: #27ae60; }
-        .negative { color: #e74c3c; }
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
 
         .charts-grid {
             display: grid;
@@ -265,7 +271,7 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             height: 400px;
             display: flex;
             flex-direction: column;
@@ -299,13 +305,13 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
         .service-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
         }
 
         .service-header {
@@ -380,7 +386,7 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
         }
 
@@ -441,17 +447,18 @@
             .charts-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .services-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="header-right">
@@ -470,7 +477,7 @@
             </button>
             <div class="logo"></div>
         </div>
-        
+
         <div class="header-left">
             <div class="welcome" id="welcome">שלום</div>
             <div class="user-avatar" id="userAvatar"></div>
@@ -485,9 +492,10 @@
                 WiseWage Dashboard
             </h1>
             <div class="subtitle">מערכת ניטור ובקרה מתקדמת לניהול שכר חכם</div>
-            
+
             <div class="vision-box">
-                <strong>🎯 חזון המערכת:</strong> WiseWage משתמשת בבינה מלאכותית כדי להבטיח דיוק של 100% בשכר העובדים. ה-AI שלנו מונע שגיאות באופן פרו-אקטיבי - מניתוח החוזה ועד הפקת התלוש, ללא צורך בתיקונים או הסברים.
+                <strong>🎯 חזון המערכת:</strong> WiseWage משתמשת בבינה מלאכותית כדי להבטיח דיוק של 100% בשכר העובדים.
+                ה-AI שלנו מונע שגיאות באופן פרו-אקטיבי - מניתוח החוזה ועד הפקת התלוש, ללא צורך בתיקונים או הסברים.
             </div>
         </div>
 
@@ -495,7 +503,7 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">סך עובדים במערכת</div>
+                    <div class="stat-title">מספר עובדים פעילים</div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
                         <i class="fas fa-users"></i>
                     </div>
@@ -508,8 +516,47 @@
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">תלושים הופקו החודש</div>
+                    <div class="stat-title">עובדים חדשים החודש</div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+                <div class="stat-value">45</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +8% מהחודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">חוזים שהועלו החודש</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                </div>
+                <div class="stat-value">38</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +15% מהחודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">סה"כ חוזים במערכת</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e67e22, #d35400);">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                </div>
+                <div class="stat-value">1,285</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-check-circle"></i> מעודכן
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">תלושים שנוצרו החודש</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
                         <i class="fas fa-file-invoice-dollar"></i>
                     </div>
                 </div>
@@ -521,204 +568,262 @@
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">דיוק AI במערכת</div>
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                        <i class="fas fa-brain"></i>
+                    <div class="stat-title">ממוצע שכר ברוטו</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-shekel-sign"></i>
                     </div>
                 </div>
-                <div class="stat-value">99.8%</div>
+                <div class="stat-value">₪15,800</div>
                 <div class="stat-change positive">
-                    <i class="fas fa-star"></i> דיוק מעולה
+                    <i class="fas fa-arrow-up"></i> +3.2% מהחודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">ממוצע שכר נטו</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                </div>
+                <div class="stat-value">₪12,450</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +2.8% מהחודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">עובדים עם עליית שכר >20%</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">עובדים עם ירידת שכר >20%</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e67e22, #d35400);">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                </div>
+                <div class="stat-value">8</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">ממוצע ימי חופשה החודש</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                </div>
+                <div class="stat-value">3.2</div>
+                <div class="stat-change">
+                    <i class="fas fa-info-circle"></i> ימים לעובד
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">סה"כ ימי מחלה</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #34495e, #2c3e50);">
+                        <i class="fas fa-procedures"></i>
+                    </div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-change">
+                    <i class="fas fa-info-circle"></i> ימים החודש
                 </div>
             </div>
         </div>
 
-        <!-- Charts Section -->
+
+        <!-- Vacation and Sick Days Charts -->
         <div class="charts-grid">
             <div class="chart-card">
                 <div class="chart-title">
-                    <i class="fas fa-chart-area" style="color: #3498db;"></i>
-                    טרנד עיבוד תלושים (6 חודשים אחרונים)
+                    <i class="fas fa-chart-bar" style="color: #3498db;"></i>
+                    ימי חופשה/מחלה לפי מחלקות
                 </div>
                 <div class="chart-container">
-                    <canvas id="payslipTrendChart"></canvas>
+                    <canvas id="departmentDaysChart"></canvas>
                 </div>
             </div>
 
             <div class="chart-card">
                 <div class="chart-title">
-                    <i class="fas fa-chart-pie" style="color: #e74c3c;"></i>
-                    התפלגות שימוש בשירותים
+                    <i class="fas fa-chart-line" style="color: #27ae60;"></i>
+                    מגמת ניצול ימי חופשה
                 </div>
                 <div class="chart-container">
-                    <canvas id="servicesChart"></canvas>
+                    <canvas id="vacationTrendChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Services Status Grid -->
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #ff6b35, #e55a2b);">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div>
-                        <div class="service-title">Gemini AI Service</div>
-                        <div class="service-status status-active">פעיל</div>
-                    </div>
-                </div>
-                <div class="service-metrics">
-                    <div class="metric-row">
-                        <div class="metric-label">חוזים נותחו היום</div>
-                        <div class="metric-value">23</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">דיוק ניתוח</div>
-                        <div class="metric-value">99.2%</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">זמן תגובה ממוצע</div>
-                        <div class="metric-value">1.8 שניות</div>
+        <div class="chart-card" style="margin-bottom: 30px;">
+            <div class="chart-title">
+                <i class="fas fa-calendar-heat" style="color: #e74c3c;"></i>
+                ניתוח חודשי של ניצול חופשות
+            </div>
+            <div class="chart-container">
+                <canvas id="vacationHeatmapChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bonus KPIs -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">סה"כ בונוסים ששולמו החודש</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 92%; background: linear-gradient(135deg, #ff6b35, #e55a2b);"></div>
+                <div class="stat-value">₪1,250,000</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +15% מהחודש הקודם
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div>
-                        <div class="service-title">PDF Parse Service</div>
-                        <div class="service-status status-active">פעיל</div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">עובדים שקיבלו בונוס</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-users"></i>
                     </div>
                 </div>
-                <div class="service-metrics">
-                    <div class="metric-row">
-                        <div class="metric-label">קבצים עובדו היום</div>
-                        <div class="metric-value">47</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">הצלחה בעיבוד</div>
-                        <div class="metric-value">98.9%</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">קבצים בתור</div>
-                        <div class="metric-value">3</div>
-                    </div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 89%; background: linear-gradient(135deg, #3498db, #2980b9);"></div>
+                <div class="stat-value">245</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +8% מהחודש הקודם
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">ממוצע בונוס לעובד</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
                         <i class="fas fa-calculator"></i>
                     </div>
-                    <div>
-                        <div class="service-title">Payslip Calculator</div>
-                        <div class="service-status status-processing">עובד</div>
-                    </div>
                 </div>
-                <div class="service-metrics">
-                    <div class="metric-row">
-                        <div class="metric-label">חישובים היום</div>
-                        <div class="metric-value">156</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">דיוק חישובים</div>
-                        <div class="metric-value">100%</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">זמן חישוב ממוצע</div>
-                        <div class="metric-value">0.5 שניות</div>
-                    </div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 95%; background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
+                <div class="stat-value">₪5,100</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +6.5% מהחודש הקודם
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                        <div class="service-title">Email Service</div>
-                        <div class="service-status status-active">פעיל</div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">אחוז גידול בבונוסים</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <i class="fas fa-chart-line"></i>
                     </div>
                 </div>
-                <div class="service-metrics">
-                    <div class="metric-row">
-                        <div class="metric-label">אימיילים נשלחו</div>
-                        <div class="metric-value">89</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">הצלחה בשליחה</div>
-                        <div class="metric-value">97.8%</div>
-                    </div>
-                    <div class="metric-row">
-                        <div class="metric-label">זמן שליחה ממוצע</div>
-                        <div class="metric-value">3.2 שניות</div>
+                <div class="stat-value">15%</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> לעומת החודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">מחלקות ללא בונוסים</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-exclamation-triangle"></i>
                     </div>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 88%; background: linear-gradient(135deg, #9b59b6, #8e44ad);"></div>
+                <div class="stat-value">3</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
                 </div>
             </div>
         </div>
 
-        <!-- Recent Activity -->
+        <!-- Bonus Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-chart-bar" style="color: #3498db;"></i>
+                    סכום בונוסים לפי מחלקה
+                </div>
+                <div class="chart-container">
+                    <canvas id="departmentBonusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-chart-line" style="color: #27ae60;"></i>
+                    מגמת סכום בונוסים לאורך השנה
+                </div>
+                <div class="chart-container">
+                    <canvas id="bonusTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top 5 Employees by Bonus -->
         <div class="recent-activity">
             <div class="chart-title">
-                <i class="fas fa-history" style="color: #34495e;"></i>
-                פעילות אחרונה במערכת
+                <i class="fas fa-trophy" style="color: #f1c40f;"></i>
+                Top 5 עובדים לפי בונוס
             </div>
-            
+
             <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
-                    <i class="fas fa-file-invoice"></i>
+                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <i class="fas fa-medal"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">תלוש שכר הופק בהצלחה עבור דוד כהן</div>
-                    <div class="activity-time">לפני 3 דקות</div>
+                    <div class="activity-title">דוד כהן - ₪25,000</div>
+                    <div class="activity-time">מחלקת פיתוח</div>
                 </div>
             </div>
 
             <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #ff6b35, #e55a2b);">
-                    <i class="fas fa-brain"></i>
+                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <i class="fas fa-medal"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">AI ניתח חוזה עבודה חדש - דיוק 99.5%</div>
-                    <div class="activity-time">לפני 7 דקות</div>
+                    <div class="activity-title">שרה לוי - ₪22,500</div>
+                    <div class="activity-time">מחלקת מכירות</div>
                 </div>
             </div>
 
             <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
-                    <i class="fas fa-user-plus"></i>
+                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <i class="fas fa-medal"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">עובד חדש נוסף למערכת - שרה לוי</div>
-                    <div class="activity-time">לפני 15 דקות</div>
+                    <div class="activity-title">יעקב אברהם - ₪20,000</div>
+                    <div class="activity-time">מחלקת שיווק</div>
                 </div>
             </div>
 
             <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                    <i class="fas fa-envelope-open"></i>
+                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <i class="fas fa-medal"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">156 תלושי שכר נשלחו באימייל</div>
-                    <div class="activity-time">לפני 23 דקות</div>
+                    <div class="activity-title">רחל כהן - ₪18,500</div>
+                    <div class="activity-time">מחלקת תמיכה</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">משה לוי - ₪17,000</div>
+                    <div class="activity-time">מחלקת פיתוח</div>
                 </div>
             </div>
         </div>
@@ -730,7 +835,7 @@
             try {
                 const response = await fetch('/api/dashboard/stats');
                 const data = await response.json();
-                
+
                 // Update statistics in the dashboard
                 document.querySelector('.stat-value:nth-child(1)').textContent = data.employees_count.toLocaleString();
                 document.querySelector('.stat-value:nth-child(2)').textContent = data.payslips_count.toLocaleString();
@@ -819,6 +924,189 @@
                 }
             }
         });
+
+        // Department Days Chart
+        const ctx3 = document.getElementById('departmentDaysChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['פיתוח', 'מכירות', 'שיווק', 'תמיכה', 'משאבי אנוש'],
+                datasets: [{
+                    label: 'ימי חופשה',
+                    data: [120, 85, 95, 110, 75],
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'ימי מחלה',
+                    data: [45, 30, 25, 35, 20],
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Vacation Trend Chart
+        const ctx4 = document.getElementById('vacationTrendChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
+                datasets: [{
+                    label: 'ימי חופשה',
+                    data: [85, 95, 110, 120, 105, 95],
+                    borderColor: '#27ae60',
+                    backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Vacation Heatmap Chart
+        const ctx5 = document.getElementById('vacationHeatmapChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'matrix',
+            data: {
+                datasets: [{
+                    data: [
+                        { x: 0, y: 0, v: 85 }, { x: 1, y: 0, v: 95 }, { x: 2, y: 0, v: 110 },
+                        { x: 0, y: 1, v: 120 }, { x: 1, y: 1, v: 105 }, { x: 2, y: 1, v: 95 },
+                        { x: 0, y: 2, v: 90 }, { x: 1, y: 2, v: 100 }, { x: 2, y: 2, v: 115 }
+                    ],
+                    backgroundColor(context) {
+                        const value = context.dataset.data[context.dataIndex].v;
+                        const alpha = value / 120;
+                        return `rgba(231, 76, 60, ${alpha})`;
+                    },
+                    borderColor: 'white',
+                    borderWidth: 1,
+                    width: ({ chart }) => (chart.chartArea || {}).width / 3 - 1,
+                    height: ({ chart }) => (chart.chartArea || {}).height / 3 - 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        type: 'category',
+                        labels: ['Q1', 'Q2', 'Q3'],
+                        offset: true
+                    },
+                    y: {
+                        type: 'category',
+                        labels: ['2021', '2022', '2023'],
+                        offset: true
+                    }
+                }
+            }
+        });
+
+        // Department Bonus Chart
+        const ctx6 = document.getElementById('departmentBonusChart').getContext('2d');
+        new Chart(ctx6, {
+            type: 'bar',
+            data: {
+                labels: ['פיתוח', 'מכירות', 'שיווק', 'תמיכה', 'משאבי אנוש'],
+                datasets: [{
+                    label: 'סכום בונוסים',
+                    data: [450000, 350000, 250000, 150000, 50000],
+                    backgroundColor: 'rgba(46, 204, 113, 0.8)',
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Bonus Trend Chart
+        const ctx7 = document.getElementById('bonusTrendChart').getContext('2d');
+        new Chart(ctx7, {
+            type: 'line',
+            data: {
+                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
+                datasets: [{
+                    label: 'סכום בונוסים',
+                    data: [950000, 1050000, 1150000, 1100000, 1200000, 1250000],
+                    borderColor: '#2ecc71',
+                    backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
     </script>
 </body>
+
 </html>
