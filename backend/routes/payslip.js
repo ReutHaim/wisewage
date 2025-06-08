@@ -35,36 +35,36 @@ async function generatePDF(data, templatePath, outputPath) {
                 ...data,
                 payments: {
                     ...data.payments,
-                    baseSalary: formatCurrency(data.payments.baseSalary),
-                    travelExpenses: formatCurrency(data.payments.travelExpenses),
-                    carValue: formatCurrency(data.payments.carValue),
-                    phoneValue: formatCurrency(data.payments.phoneValue),
-                    mealsValue: formatCurrency(data.payments.mealsValue),
-                    monthlyBonus: formatCurrency(data.payments.monthlyBonus),
-                    totalPayments: formatCurrency(data.payments.totalPayments)
+                    baseSalary: Number(data.payments.baseSalary).toFixed(2),
+                    travelExpenses: Number(data.payments.travelExpenses).toFixed(2),
+                    carValue: Number(data.payments.carValue).toFixed(2),
+                    phoneValue: Number(data.payments.phoneValue).toFixed(2),
+                    mealsValue: Number(data.payments.mealsValue).toFixed(2),
+                    monthlyBonus: Number(data.payments.monthlyBonus).toFixed(2),
+                    totalPayments: Number(data.payments.totalPayments).toFixed(2)
                 },
                 mandatoryDeductions: {
                     ...data.mandatoryDeductions,
-                    incomeTax: formatCurrency(data.mandatoryDeductions.incomeTax),
-                    nationalInsurance: formatCurrency(data.mandatoryDeductions.nationalInsurance),
-                    healthTax: formatCurrency(data.mandatoryDeductions.healthTax),
-                    total: formatCurrency(data.mandatoryDeductions.total)
+                    incomeTax: Number(data.mandatoryDeductions.incomeTax).toFixed(2),
+                    nationalInsurance: Number(data.mandatoryDeductions.nationalInsurance).toFixed(2),
+                    healthTax: Number(data.mandatoryDeductions.healthTax).toFixed(2),
+                    total: Number(data.mandatoryDeductions.total).toFixed(2)
                 },
                 pensionDeductions: {
                     ...data.pensionDeductions,
-                    employeePension: formatCurrency(data.pensionDeductions.employeePension),
-                    employerPension: formatCurrency(data.pensionDeductions.employerPension),
-                    employeeFund: formatCurrency(data.pensionDeductions.employeeFund),
-                    employerFund: formatCurrency(data.pensionDeductions.employerFund),
-                    employerSeverance: formatCurrency(data.pensionDeductions.employerSeverance),
-                    totalEmployeeDeductions: formatCurrency(data.pensionDeductions.totalEmployeeDeductions),
-                    totalEmployerContributions: formatCurrency(data.pensionDeductions.totalEmployerContributions)
+                    employeePension: Number(data.pensionDeductions.employeePension).toFixed(2),
+                    employerPension: Number(data.pensionDeductions.employerPension).toFixed(2),
+                    employeeFund: Number(data.pensionDeductions.employeeFund).toFixed(2),
+                    employerFund: Number(data.pensionDeductions.employerFund).toFixed(2),
+                    employerSeverance: Number(data.pensionDeductions.employerSeverance).toFixed(2),
+                    totalEmployeeDeductions: Number(data.pensionDeductions.totalEmployeeDeductions).toFixed(2),
+                    totalEmployerContributions: Number(data.pensionDeductions.totalEmployerContributions).toFixed(2)
                 },
                 summary: {
                     ...data.summary,
-                    totalGross: formatCurrency(data.summary.totalGross),
-                    totalDeductions: formatCurrency(data.summary.totalDeductions),
-                    totalNet: formatCurrency(data.summary.totalNet)
+                    totalGross: Number(data.summary.totalGross).toFixed(2),
+                    totalDeductions: Number(data.summary.totalDeductions).toFixed(2),
+                    totalNet: Number(data.summary.totalNet).toFixed(2)
                 }
             };
 

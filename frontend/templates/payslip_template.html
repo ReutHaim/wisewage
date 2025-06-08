@@ -441,13 +441,11 @@
     </div>
 
     <script>
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('he-IL', {
-                style: 'currency',
-                currency: 'ILS',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
+        function formatCurrency(value) {
+            if (value === undefined || value === null || isNaN(value)) {
+                return '0.00';
+            }
+            return Number(value).toFixed(2);
         }
 
         function loadPayslipData(data) {
@@ -509,9 +507,26 @@
             document.getElementById('sick-balance').textContent = data.absences.sick.balance;
 
             // Summary
-            document.getElementById('final-gross').textContent = formatCurrency(data.summary.totalGross);
-            document.getElementById('final-deductions').textContent = formatCurrency(data.summary.totalDeductions);
-            document.getElementById('final-net').textContent = formatCurrency(data.summary.totalNet);
+            document.getElementById('final-gross').textContent = new Intl.NumberFormat('he-IL', {
+                style: 'currency',
+                currency: 'ILS',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(Number(data.summary.totalGross));
+
+            document.getElementById('final-deductions').textContent = new Intl.NumberFormat('he-IL', {
+                style: 'currency',
+                currency: 'ILS',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(Number(data.summary.totalDeductions));
+
+            document.getElementById('final-net').textContent = new Intl.NumberFormat('he-IL', {
+                style: 'currency',
+                currency: 'ILS',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(Number(data.summary.totalNet));
 
             // Footer
             document.getElementById('company-name-footer').textContent = data.company.name;

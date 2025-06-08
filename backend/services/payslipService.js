@@ -65,10 +65,9 @@ async function generatePayslip(worker, payData, db) {
                 }
             },
             summary: {
-                totalGross: calculatedData.payments.totalPayments,
-                totalDeductions: calculatedData.mandatoryDeductions.total + calculatedData.pensionDeductions.totalEmployeeDeductions,
-                totalNet: calculatedData.payments.totalPayments - 
-                    (calculatedData.mandatoryDeductions.total + calculatedData.pensionDeductions.totalEmployeeDeductions)
+                totalGross: calculatedData.summary.totalGross,
+                totalDeductions: calculatedData.summary.totalDeductions,
+                totalNet: calculatedData.summary.totalNet
             },
             payslip: {
                 month: new Date().toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })

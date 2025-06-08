@@ -226,21 +226,6 @@ class PayslipCalculator {
         const vacationDeduction = dailyRate * Number(vacationDays || 0);
         const sickDayDeduction = dailyRate * Number(sickDays || 0);
 
-        const totalDeductions = 
-            incomeTax.amount +
-            nationalInsurance.employee +
-            healthInsurance.amount +
-            pension.employee +
-            educationFund.employee +
-            vacationDeduction +
-            sickDayDeduction;
-
-        const employerCost = 
-            grossSalary +
-            nationalInsurance.employer +
-            pension.employer +
-            educationFund.employer;
-
         // Calculate all components separately to avoid floating point issues
         const mandatoryDeductionsTotal = Math.round(
             (incomeTax.amount + nationalInsurance.employee + healthInsurance.amount) * 100
@@ -254,7 +239,16 @@ class PayslipCalculator {
             (vacationDeduction + sickDayDeduction) * 100
         ) / 100;
 
-        const totalDeductionsAmount = mandatoryDeductionsTotal + pensionDeductionsTotal + absenceDeductionsTotal;
+        // Calculate total deductions as the sum of all deduction types
+        const totalDeductionsAmount = Math.round(
+            (mandatoryDeductionsTotal + pensionDeductionsTotal + absenceDeductionsTotal) * 100
+        ) / 100;
+
+        const employerCost = 
+            grossSalary +
+            nationalInsurance.employer +
+            pension.employer +
+            educationFund.employer;
 
         return {
             company: {
