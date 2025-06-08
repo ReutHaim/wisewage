@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiseWage Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="js/common.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('buildings.jpg'), url('buildings.png'), url('buildings.jpeg'), url('buildings.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            direction: rtl;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(25, 118, 210, 0.95);
+            color: white;
+            padding: 15px 40px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .logo {
+            height: 40px;
+            width: 40px;
+            background-image: url('logo.jpg'), url('logo.png'), url('logo.jpeg'), url('logo.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .welcome {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logout-button {
+            background-color: #ffffff;
+            color: #1976d2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-header h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-header .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .vision-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .positive { color: #27ae60; }
+        .negative { color: #e74c3c; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .service-icon {
+            font-size: 28px;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .service-status {
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .status-processing {
+            background: #fef5e7;
+            color: #f39c12;
+        }
+
+        .service-metrics {
+            margin-top: 15px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-right">
+            <button class="menu-button" onclick="toggleMenu()">
+                <div class="menu-icon">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="home.html" class="dropdown-item">דף הבית</a>
+                    <a href="upload.html" class="dropdown-item">קליטת עובד חדש</a>
+                    <a href="employee_management.html" class="dropdown-item">עדכון פרטי עובדים</a>
+                    <a href="generate_payslip.html" class="dropdown-item">הפקת תלושים</a>
+                </div>
+            </button>
+            <div class="logo"></div>
+        </div>
+        
+        <div class="header-left">
+            <div class="welcome" id="welcome">שלום</div>
+            <div class="user-avatar" id="userAvatar"></div>
+            <button class="logout-button" onclick="logout()">התנתק</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>
+                <i class="fas fa-chart-line" style="color: #667eea;"></i>
+                WiseWage Dashboard
+            </h1>
+            <div class="subtitle">מערכת ניטור ובקרה מתקדמת לניהול שכר חכם</div>
+            
+            <div class="vision-box">
+                <strong>🎯 חזון המערכת:</strong> WiseWage משתמשת בבינה מלאכותית כדי להבטיח דיוק של 100% בשכר העובדים. ה-AI שלנו מונע שגיאות באופן פרו-אקטיבי - מניתוח החוזה ועד הפקת התלוש, ללא צורך בתיקונים או הסברים.
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">סך עובדים במערכת</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +12% מהחודש הקודם
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">תלושים הופקו החודש</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                </div>
+                <div class="stat-value">1,203</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-check-circle"></i> 96.5% הושלמו
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">דיוק AI במערכת</div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <div class="stat-value">99.8%</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-star"></i> דיוק מעולה
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-chart-area" style="color: #3498db;"></i>
+                    טרנד עיבוד תלושים (6 חודשים אחרונים)
+                </div>
+                <canvas id="payslipTrendChart" height="300"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-chart-pie" style="color: #e74c3c;"></i>
+                    התפלגות שימוש בשירותים
+                </div>
+                <canvas id="servicesChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Services Status Grid -->
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #ff6b35, #e55a2b);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <div class="service-title">Gemini AI Service</div>
+                        <div class="service-status status-active">פעיל</div>
+                    </div>
+                </div>
+                <div class="service-metrics">
+                    <div class="metric-row">
+                        <div class="metric-label">חוזים נותחו היום</div>
+                        <div class="metric-value">23</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">דיוק ניתוח</div>
+                        <div class="metric-value">99.2%</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">זמן תגובה ממוצע</div>
+                        <div class="metric-value">1.8 שניות</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%; background: linear-gradient(135deg, #ff6b35, #e55a2b);"></div>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <div class="service-title">PDF Parse Service</div>
+                        <div class="service-status status-active">פעיל</div>
+                    </div>
+                </div>
+                <div class="service-metrics">
+                    <div class="metric-row">
+                        <div class="metric-label">קבצים עובדו היום</div>
+                        <div class="metric-value">47</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">הצלחה בעיבוד</div>
+                        <div class="metric-value">98.9%</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">קבצים בתור</div>
+                        <div class="metric-value">3</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 89%; background: linear-gradient(135deg, #3498db, #2980b9);"></div>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div>
+                        <div class="service-title">Payslip Calculator</div>
+                        <div class="service-status status-processing">עובד</div>
+                    </div>
+                </div>
+                <div class="service-metrics">
+                    <div class="metric-row">
+                        <div class="metric-label">חישובים היום</div>
+                        <div class="metric-value">156</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">דיוק חישובים</div>
+                        <div class="metric-value">100%</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">זמן חישוב ממוצע</div>
+                        <div class="metric-value">0.5 שניות</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%; background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <div class="service-title">Email Service</div>
+                        <div class="service-status status-active">פעיל</div>
+                    </div>
+                </div>
+                <div class="service-metrics">
+                    <div class="metric-row">
+                        <div class="metric-label">אימיילים נשלחו</div>
+                        <div class="metric-value">89</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">הצלחה בשליחה</div>
+                        <div class="metric-value">97.8%</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">זמן שליחה ממוצע</div>
+                        <div class="metric-value">3.2 שניות</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 88%; background: linear-gradient(135deg, #9b59b6, #8e44ad);"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <div class="chart-title">
+                <i class="fas fa-history" style="color: #34495e;"></i>
+                פעילות אחרונה במערכת
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">תלוש שכר הופק בהצלחה עבור דוד כהן</div>
+                    <div class="activity-time">לפני 3 דקות</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon" style="background: linear-gradient(135deg, #ff6b35, #e55a2b);">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">AI ניתח חוזה עבודה חדש - דיוק 99.5%</div>
+                    <div class="activity-time">לפני 7 דקות</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">עובד חדש נוסף למערכת - שרה לוי</div>
+                    <div class="activity-time">לפני 15 דקות</div>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    <i class="fas fa-envelope-open"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">156 תלושי שכר נשלחו באימייל</div>
+                    <div class="activity-time">לפני 23 דקות</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update dashboard statistics
+        async function updateDashboardStats() {
+            try {
+                const response = await fetch('/api/dashboard/stats');
+                const data = await response.json();
+                
+                // Update statistics in the dashboard
+                document.querySelector('.stat-value:nth-child(1)').textContent = data.employees_count.toLocaleString();
+                document.querySelector('.stat-value:nth-child(2)').textContent = data.payslips_count.toLocaleString();
+                document.querySelector('.stat-value:nth-child(3)').textContent = data.ai_accuracy + '%';
+                document.querySelector('.stat-value:nth-child(4)').textContent = data.avg_processing_time + ' שניות';
+            } catch (error) {
+                console.error('Error fetching dashboard stats:', error);
+            }
+        }
+
+        // Update stats when page loads
+        document.addEventListener('DOMContentLoaded', updateDashboardStats);
+
+        // Update stats every 30 seconds
+        setInterval(updateDashboardStats, 30000);
+
+        // Payslip Trend Chart
+        const ctx1 = document.getElementById('payslipTrendChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
+                datasets: [{
+                    label: 'תלושים הופקו',
+                    data: [856, 923, 1045, 1156, 1089, 1203],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Services Usage Chart
+        const ctx2 = document.getElementById('servicesChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Gemini AI', 'PDF Parser', 'Calculator', 'Email', 'אחר'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: [
+                        '#ff6b35',
+                        '#3498db',
+                        '#27ae60',
+                        '#9b59b6',
+                        '#95a5a6'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
