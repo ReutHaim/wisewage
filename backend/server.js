@@ -16,6 +16,7 @@ const contracts = require('./routes/contracts');
 const worker = require('./routes/worker');
 const payslip = require('./routes/payslip');
 const documents = require('./routes/documents');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -88,6 +89,7 @@ async function startServer() {
     app.use('/api/workers', worker);
     app.use('/api/payslips', payslip);
     app.use('/api/documents', documents);
+    app.use('/api/dashboard', dashboardRoutes);
 
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, '../frontend/login.html'));

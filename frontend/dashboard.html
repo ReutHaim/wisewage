@@ -7,6 +7,7 @@
     <title>WiseWage Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="config.js"></script>
     <script src="js/common.js"></script>
     <style>
@@ -294,6 +295,10 @@
             gap: 10px;
         }
 
+        .chart-title i {
+            font-size: 20px;
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -388,18 +393,21 @@
             padding: 25px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .activity-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid #ecf0f1;
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .activity-item:last-child {
-            border-bottom: none;
+        .activity-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
         }
 
         .activity-icon {
@@ -409,8 +417,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: 15px;
             color: white;
-            font-size: 18px;
         }
 
         .activity-content {
@@ -420,11 +428,11 @@
         .activity-title {
             font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .activity-time {
-            font-size: 12px;
+            font-size: 14px;
             color: #7f8c8d;
         }
 
@@ -508,9 +516,8 @@
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
-                <div class="stat-value">1,247</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +12% מהחודש הקודם
                 </div>
             </div>
 
@@ -521,9 +528,8 @@
                         <i class="fas fa-user-plus"></i>
                     </div>
                 </div>
-                <div class="stat-value">45</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +8% מהחודש הקודם
                 </div>
             </div>
 
@@ -534,9 +540,8 @@
                         <i class="fas fa-file-contract"></i>
                     </div>
                 </div>
-                <div class="stat-value">38</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +15% מהחודש הקודם
                 </div>
             </div>
 
@@ -547,9 +552,8 @@
                         <i class="fas fa-folder-open"></i>
                     </div>
                 </div>
-                <div class="stat-value">1,285</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-check-circle"></i> מעודכן
                 </div>
             </div>
 
@@ -560,9 +564,8 @@
                         <i class="fas fa-file-invoice-dollar"></i>
                     </div>
                 </div>
-                <div class="stat-value">1,203</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-check-circle"></i> 96.5% הושלמו
                 </div>
             </div>
 
@@ -573,9 +576,8 @@
                         <i class="fas fa-shekel-sign"></i>
                     </div>
                 </div>
-                <div class="stat-value">₪15,800</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +3.2% מהחודש הקודם
                 </div>
             </div>
 
@@ -586,9 +588,8 @@
                         <i class="fas fa-hand-holding-usd"></i>
                     </div>
                 </div>
-                <div class="stat-value">₪12,450</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +2.8% מהחודש הקודם
                 </div>
             </div>
 
@@ -599,9 +600,8 @@
                         <i class="fas fa-arrow-trend-up"></i>
                     </div>
                 </div>
-                <div class="stat-value">12</div>
+                <div class="stat-value"></div>
                 <div class="stat-change negative">
-                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
                 </div>
             </div>
 
@@ -612,9 +612,8 @@
                         <i class="fas fa-arrow-trend-down"></i>
                     </div>
                 </div>
-                <div class="stat-value">8</div>
+                <div class="stat-value"></div>
                 <div class="stat-change negative">
-                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
                 </div>
             </div>
 
@@ -625,9 +624,8 @@
                         <i class="fas fa-umbrella-beach"></i>
                     </div>
                 </div>
-                <div class="stat-value">3.2</div>
+                <div class="stat-value"></div>
                 <div class="stat-change">
-                    <i class="fas fa-info-circle"></i> ימים לעובד
                 </div>
             </div>
 
@@ -638,9 +636,8 @@
                         <i class="fas fa-procedures"></i>
                     </div>
                 </div>
-                <div class="stat-value">156</div>
+                <div class="stat-value"></div>
                 <div class="stat-change">
-                    <i class="fas fa-info-circle"></i> ימים החודש
                 </div>
             </div>
         </div>
@@ -688,9 +685,8 @@
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
                 </div>
-                <div class="stat-value">₪1,250,000</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +15% מהחודש הקודם
                 </div>
             </div>
 
@@ -701,9 +697,8 @@
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
-                <div class="stat-value">245</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +8% מהחודש הקודם
                 </div>
             </div>
 
@@ -714,9 +709,8 @@
                         <i class="fas fa-calculator"></i>
                     </div>
                 </div>
-                <div class="stat-value">₪5,100</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> +6.5% מהחודש הקודם
                 </div>
             </div>
 
@@ -727,9 +721,8 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                 </div>
-                <div class="stat-value">15%</div>
+                <div class="stat-value"></div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i> לעומת החודש הקודם
                 </div>
             </div>
 
@@ -740,9 +733,8 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                 </div>
-                <div class="stat-value">3</div>
+                <div class="stat-value"></div>
                 <div class="stat-change negative">
-                    <i class="fas fa-exclamation-circle"></i> דורש בדיקה
                 </div>
             </div>
         </div>
@@ -759,354 +751,37 @@
                 </div>
             </div>
 
-            <div class="chart-card">
-                <div class="chart-title">
-                    <i class="fas fa-chart-line" style="color: #27ae60;"></i>
-                    מגמת סכום בונוסים לאורך השנה
-                </div>
-                <div class="chart-container">
+            <div class="chart-container">
+                <div class="chart-card">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-line"></i>
+                        מגמת בונוסים
+                    </div>
                     <canvas id="bonusTrendChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Top 5 Employees by Bonus -->
-        <div class="recent-activity">
-            <div class="chart-title">
-                <i class="fas fa-trophy" style="color: #f1c40f;"></i>
-                Top 5 עובדים לפי בונוס
-            </div>
-
-            <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                    <i class="fas fa-medal"></i>
+        <div class="chart-container">
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-trophy"></i>
+                    Top 5 עובדים לפי בונוס
                 </div>
-                <div class="activity-content">
-                    <div class="activity-title">דוד כהן - ₪25,000</div>
-                    <div class="activity-time">מחלקת פיתוח</div>
-                </div>
-            </div>
-
-            <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                    <i class="fas fa-medal"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">שרה לוי - ₪22,500</div>
-                    <div class="activity-time">מחלקת מכירות</div>
-                </div>
-            </div>
-
-            <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                    <i class="fas fa-medal"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">יעקב אברהם - ₪20,000</div>
-                    <div class="activity-time">מחלקת שיווק</div>
-                </div>
-            </div>
-
-            <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                    <i class="fas fa-medal"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">רחל כהן - ₪18,500</div>
-                    <div class="activity-time">מחלקת תמיכה</div>
-                </div>
-            </div>
-
-            <div class="activity-item">
-                <div class="activity-icon" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                    <i class="fas fa-medal"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">משה לוי - ₪17,000</div>
-                    <div class="activity-time">מחלקת פיתוח</div>
+                <div class="recent-activity">
+                    <!-- Top 5 employees will be populated here -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Function to update dashboard statistics
-        async function updateDashboardStats() {
-            try {
-                const response = await fetch('/api/dashboard/stats');
-                const data = await response.json();
-
-                // Update statistics in the dashboard
-                document.querySelector('.stat-value:nth-child(1)').textContent = data.employees_count.toLocaleString();
-                document.querySelector('.stat-value:nth-child(2)').textContent = data.payslips_count.toLocaleString();
-                document.querySelector('.stat-value:nth-child(3)').textContent = data.ai_accuracy + '%';
-                document.querySelector('.stat-value:nth-child(4)').textContent = data.avg_processing_time + ' שניות';
-            } catch (error) {
-                console.error('Error fetching dashboard stats:', error);
-            }
-        }
-
-        // Update stats when page loads
-        document.addEventListener('DOMContentLoaded', updateDashboardStats);
-
-        // Update stats every 30 seconds
-        setInterval(updateDashboardStats, 30000);
-
-        // Payslip Trend Chart
-        const ctx1 = document.getElementById('payslipTrendChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
-                datasets: [{
-                    label: 'תלושים הופקו',
-                    data: [856, 923, 1045, 1156, 1089, 1203],
-                    borderColor: '#3498db',
-                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Services Usage Chart
-        const ctx2 = document.getElementById('servicesChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: ['Gemini AI', 'PDF Parser', 'Calculator', 'Email', 'אחר'],
-                datasets: [{
-                    data: [35, 25, 20, 15, 5],
-                    backgroundColor: [
-                        '#ff6b35',
-                        '#3498db',
-                        '#27ae60',
-                        '#9b59b6',
-                        '#95a5a6'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true
-                        }
-                    }
-                }
-            }
-        });
-
-        // Department Days Chart
-        const ctx3 = document.getElementById('departmentDaysChart').getContext('2d');
-        new Chart(ctx3, {
-            type: 'bar',
-            data: {
-                labels: ['פיתוח', 'מכירות', 'שיווק', 'תמיכה', 'משאבי אנוש'],
-                datasets: [{
-                    label: 'ימי חופשה',
-                    data: [120, 85, 95, 110, 75],
-                    backgroundColor: 'rgba(52, 152, 219, 0.8)',
-                    borderColor: 'rgba(52, 152, 219, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'ימי מחלה',
-                    data: [45, 30, 25, 35, 20],
-                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
-                    borderColor: 'rgba(231, 76, 60, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Vacation Trend Chart
-        const ctx4 = document.getElementById('vacationTrendChart').getContext('2d');
-        new Chart(ctx4, {
-            type: 'line',
-            data: {
-                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
-                datasets: [{
-                    label: 'ימי חופשה',
-                    data: [85, 95, 110, 120, 105, 95],
-                    borderColor: '#27ae60',
-                    backgroundColor: 'rgba(39, 174, 96, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Vacation Heatmap Chart
-        const ctx5 = document.getElementById('vacationHeatmapChart').getContext('2d');
-        new Chart(ctx5, {
-            type: 'matrix',
-            data: {
-                datasets: [{
-                    data: [
-                        { x: 0, y: 0, v: 85 }, { x: 1, y: 0, v: 95 }, { x: 2, y: 0, v: 110 },
-                        { x: 0, y: 1, v: 120 }, { x: 1, y: 1, v: 105 }, { x: 2, y: 1, v: 95 },
-                        { x: 0, y: 2, v: 90 }, { x: 1, y: 2, v: 100 }, { x: 2, y: 2, v: 115 }
-                    ],
-                    backgroundColor(context) {
-                        const value = context.dataset.data[context.dataIndex].v;
-                        const alpha = value / 120;
-                        return `rgba(231, 76, 60, ${alpha})`;
-                    },
-                    borderColor: 'white',
-                    borderWidth: 1,
-                    width: ({ chart }) => (chart.chartArea || {}).width / 3 - 1,
-                    height: ({ chart }) => (chart.chartArea || {}).height / 3 - 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    x: {
-                        type: 'category',
-                        labels: ['Q1', 'Q2', 'Q3'],
-                        offset: true
-                    },
-                    y: {
-                        type: 'category',
-                        labels: ['2021', '2022', '2023'],
-                        offset: true
-                    }
-                }
-            }
-        });
-
-        // Department Bonus Chart
-        const ctx6 = document.getElementById('departmentBonusChart').getContext('2d');
-        new Chart(ctx6, {
-            type: 'bar',
-            data: {
-                labels: ['פיתוח', 'מכירות', 'שיווק', 'תמיכה', 'משאבי אנוש'],
-                datasets: [{
-                    label: 'סכום בונוסים',
-                    data: [450000, 350000, 250000, 150000, 50000],
-                    backgroundColor: 'rgba(46, 204, 113, 0.8)',
-                    borderColor: 'rgba(46, 204, 113, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Bonus Trend Chart
-        const ctx7 = document.getElementById('bonusTrendChart').getContext('2d');
-        new Chart(ctx7, {
-            type: 'line',
-            data: {
-                labels: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני'],
-                datasets: [{
-                    label: 'סכום בונוסים',
-                    data: [950000, 1050000, 1150000, 1100000, 1200000, 1250000],
-                    borderColor: '#2ecc71',
-                    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
+        // Initialize user data when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
         });
     </script>
+    <script src="dashboard.js"></script>
 </body>
 
 </html>
